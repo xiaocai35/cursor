@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>完善信息 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .primary-header {
+            background: linear-gradient(135deg, #8A33D1, #532A8F);
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+            margin: 0;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .purple-link {
+            color: #8A33D1;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            display: inline-block;
+            margin-right: 8px;
+            position: relative;
+        }
+        
+        .custom-checkbox.checked {
+            background-color: #8A33D1;
+            border-color: #8A33D1;
+        }
+        
+        .custom-checkbox.checked::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        .radio-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        
+        .custom-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            display: inline-block;
+            margin-right: 8px;
+            position: relative;
+        }
+        
+        .custom-radio.checked {
+            border-color: #8A33D1;
+        }
+        
+        .custom-radio.checked::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #8A33D1;
+            border-radius: 50%;
+            left: 2px;
+            top: 2px;
+        }
+        
+        .section-divider {
+            height: 10px;
+            background-color: #f5f5f5;
+        }
+        
+        input[type="text"], input[type="number"] {
+            border: none;
+            outline: none;
+            text-align: right;
+            color: #666;
+            width: 150px;
+        }
+        
+        input[type="text"]::placeholder, input[type="number"]::placeholder {
+            color: #ccc;
+        }
+        
+        .unit {
+            color: #999;
+            margin-left: 5px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #8A33D1, #532A8F);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .banner {
+            position: relative;
+            padding: 20px;
+            color: white;
+        }
+        
+        .banner-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .banner-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .banner-img {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+        
+        .primary-gradient {
+            background: linear-gradient(135deg, #8A33D1, #532A8F);
+        }
+        
+        .wx-button-hover {
+            transition: opacity 0.3s;
+        }
+        
+        .wx-button-hover:active {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="flex justify-between items-center px-4 py-1 primary-gradient text-white text-xs">
+        <span>21:14</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C10.9 2 10 2.9 10 4V20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20V4C14 2.9 13.1 2 12 2ZM7.4 4C6.7 4 6.2 4.6 6.3 5.3C6.4 6.1 6.5 6.9 6.7 7.7C7 9 7.5 10.3 8.1 11.4C8.5 12.1 9.4 12.1 9.8 11.4C10.4 10.3 10.9 9 11.1 7.7C11.3 6.9 11.4 6.1 11.5 5.3C11.5 4.6 11 4 10.3 4H7.4ZM16.6 4C15.9 4 15.4 4.6 15.5 5.3C15.6 6.1 15.7 6.9 15.9 7.7C16.2 9 16.7 10.3 17.3 11.4C17.7 12.1 18.6 12.1 19 11.4C19.6 10.3 20.1 9 20.3 7.7C20.5 6.9 20.6 6.1 20.7 5.3C20.8 4.6 20.3 4 19.6 4H16.6Z"></path>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 头部导航 -->
+    <div class="flex items-center justify-between px-4 py-3 bg-white">
+        <div class="flex items-center">
+            <a href="javascript:history.back()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <h1 class="text-lg font-medium ml-4">完善信息</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="w-4 h-1 bg-gray-300 rounded-full"></div>
+            <div class="w-4 h-1 bg-gray-300 rounded-full"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="flex-1 overflow-y-auto scrollbar-hide">
+        <!-- 完善基本信息横幅 -->
+        <div class="primary-gradient banner">
+            <div class="banner-title">完善基本信息</div>
+            <button class="banner-btn">
+                获取更精准测算报告
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            
+            <img src="https://img.icons8.com/fluency/96/document.png" alt="文档" class="banner-img">
+        </div>
+
+        <!-- 文化相关 -->
+        <div class="bg-white">
+            <h2 class="section-title text-gray-800">文化相关</h2>
+            
+            <div class="px-4 py-3">
+                <div class="flex flex-wrap gap-5">
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox checked"></div>
+                        <span class="text-sm">会普通话</span>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox checked"></div>
+                        <span class="text-sm">会26个字母</span>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox checked"></div>
+                        <span class="text-sm">会加减乘除</span>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox checked"></div>
+                        <span class="text-sm">会写字</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="px-4 pb-3">
+                <a href="#" class="purple-link">快捷评测会26个字母</a>
+            </div>
+        </div>
+        
+        <div class="section-divider"></div>
+        
+        <!-- 身体相关 -->
+        <div class="bg-white">
+            <h2 class="section-title text-gray-800">身体相关</h2>
+            
+            <div class="info-item">
+                <div class="text-sm">纹身</div>
+                <div class="flex items-center space-x-6">
+                    <div class="radio-wrapper">
+                        <div class="custom-radio checked"></div>
+                        <span class="text-sm">无纹身</span>
+                    </div>
+                    <div class="radio-wrapper">
+                        <div class="custom-radio"></div>
+                        <span class="text-sm">有纹身</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="text-sm">疤痕</div>
+                <div class="flex items-center space-x-6">
+                    <div class="radio-wrapper">
+                        <div class="custom-radio checked"></div>
+                        <span class="text-sm">无疤痕</span>
+                    </div>
+                    <div class="radio-wrapper">
+                        <div class="custom-radio"></div>
+                        <span class="text-sm">有疤痕</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="text-sm">身高</div>
+                <div class="flex items-center">
+                    <input type="number" placeholder="请输入身高厘米数" class="text-right">
+                    <span class="unit">厘米</span>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="text-sm">体重</div>
+                <div class="flex items-center">
+                    <input type="number" placeholder="输入体重公斤数" class="text-right">
+                    <span class="unit">公斤</span>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="text-sm">视力</div>
+                <div class="flex items-center space-x-6">
+                    <div class="radio-wrapper">
+                        <div class="custom-radio checked"></div>
+                        <span class="text-sm">正常</span>
+                    </div>
+                    <div class="radio-wrapper">
+                        <div class="custom-radio"></div>
+                        <span class="text-sm">近视</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="text-sm">身体特异性</div>
+                <div class="flex items-center space-x-3">
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox"></div>
+                        <span class="text-sm">有色盲</span>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox"></div>
+                        <span class="text-sm">有色弱</span>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox"></div>
+                        <span class="text-sm">有钢板</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="px-4 pb-3">
+                <a href="#" class="purple-link">快捷评测色盲色弱</a>
+            </div>
+        </div>
+        
+        <div class="section-divider"></div>
+        
+        <!-- 其他信息 -->
+        <div class="bg-white">
+            <h2 class="section-title text-gray-800">其他信息</h2>
+            
+            <div class="info-item">
+                <div class="text-sm">身份证</div>
+                <div class="flex items-center space-x-3">
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox checked"></div>
+                        <span class="text-sm">有效期大于一个月</span>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <div class="custom-checkbox checked"></div>
+                        <span class="text-sm">身份证有磁</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 提示信息 -->
+        <div class="px-4 py-3 text-gray-500 text-xs leading-relaxed">
+            注：真实填写才能更精准测算，您录入的信息将仅用于本次资质和测试报告。
+        </div>
+        
+        <!-- 提交按钮 -->
+        <div class="px-4 pb-6">
+            <button class="submit-btn wx-button-hover">提交测试</button>
+        </div>
+    </div>
+</body>
+</html> 

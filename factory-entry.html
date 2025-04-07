@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>求职报名 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1', // 紫色作为主色调
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background-color: rgba(138, 51, 209, 0.3);
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .progress-active {
+            position: absolute;
+            height: 100%;
+            background-color: #8A33D1;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .step-circle-active {
+            background-color: #8A33D1;
+            color: white;
+        }
+        
+        .step-circle-inactive {
+            background-color: #e5e5e5;
+            color: #999;
+        }
+        
+        .selection-card {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .selection-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="primary-gradient px-4 py-1 flex justify-between items-center text-white text-xs">
+        <span>20:10</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C10.9 2 10 2.9 10 4V20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20V4C14 2.9 13.1 2 12 2ZM7.4 4C6.7 4 6.2 4.6 6.3 5.3C6.4 6.1 6.5 6.9 6.7 7.7C7 9 7.5 10.3 8.1 11.4C8.5 12.1 9.4 12.1 9.8 11.4C10.4 10.3 10.9 9 11.1 7.7C11.3 6.9 11.4 6.1 11.5 5.3C11.5 4.6 11 4 10.3 4H7.4ZM16.6 4C15.9 4 15.4 4.6 15.5 5.3C15.6 6.1 15.7 6.9 15.9 7.7C16.2 9 16.7 10.3 17.3 11.4C17.7 12.1 18.6 12.1 19 11.4C19.6 10.3 20.1 9 20.3 7.7C20.5 6.9 20.6 6.1 20.7 5.3C20.8 4.6 20.3 4 19.6 4H16.6Z"></path>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="bg-white px-4 py-3 flex justify-between items-center border-b border-gray-200">
+        <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span class="text-base font-medium">求职报名</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 步骤指示器 -->
+    <div class="bg-white pt-4 pb-5 px-6">
+        <div class="flex justify-between items-center mb-2">
+            <div class="flex flex-col items-center">
+                <div class="step-circle step-circle-active">1</div>
+                <span class="text-xs text-primary mt-1 font-medium">确认身份信息</span>
+            </div>
+            
+            <div class="w-20 mx-1 relative">
+                <div class="progress-bar">
+                    <div class="progress-active" style="width: 100%;"></div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="step-circle step-circle-active">2</div>
+                <span class="text-xs text-primary mt-1 font-medium">选择到厂方式</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50 scrollbar-hide">
+        <!-- 已为您智能推荐最佳到厂方式 -->
+        <div class="bg-white px-4 py-3 text-sm text-gray-600">
+            已为您智能推荐最佳到厂方式:
+            <button class="ml-2 bg-blue-100 text-blue-600 rounded-full px-3 py-1 text-xs">更换到厂方式</button>
+        </div>
+
+        <!-- 大巴接送 -->
+        <div class="mx-4 my-4">
+            <div class="flex items-center bg-amber-50 p-3 rounded-lg border border-amber-200">
+                <div class="w-12 h-12 mr-3 rounded border border-amber-300 flex items-center justify-center text-xs text-amber-400">班车图标</div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-medium text-amber-600">华辉专车送厂</h3>
+                        <div class="flex space-x-1">
+                            <span class="text-xs px-2 py-0.5 rounded bg-green-100 text-green-600">包接</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-green-100 text-green-600">包送</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">到华辉门店集合,由门店安排车辆免费送达工厂面试</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 选择集合门店 -->
+        <div class="mx-4 my-3">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-gray-700 font-medium">选择集合门店:</h3>
+                <div class="flex space-x-2">
+                    <button class="bg-amber-100 text-amber-600 rounded-full px-3 py-1 text-xs">离我最近</button>
+                    <button class="bg-gray-100 text-gray-600 rounded-full px-3 py-1 text-xs">厂区最近</button>
+                </div>
+            </div>
+
+            <!-- 门店列表 -->
+            <div class="bg-white rounded-lg shadow-sm mb-3">
+                <div class="p-3 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <div class="w-7 h-7 rounded-full bg-primary-bg-light flex-shrink-0 flex items-center justify-center mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-medium">华辉人力-华南运营中心</h4>
+                                <span class="text-orange-500 font-medium">522公里</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="bg-blue-100 text-blue-600 text-xs px-1.5 py-0.5 rounded-sm mr-1">导航</span>
+                                <span class="text-xs text-gray-500 truncate">广东省深圳市龙华区福城街道田围大厦</span>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">门店发车时间: 暂无</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 relative">
+                    <div class="flex items-center">
+                        <div class="w-7 h-7 rounded-full bg-primary-bg-light flex-shrink-0 flex items-center justify-center mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-medium">华辉人力-华东运营中心</h4>
+                                <span class="text-orange-500 font-medium">770公里</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="bg-blue-100 text-blue-600 text-xs px-1.5 py-0.5 rounded-sm mr-1">导航</span>
+                                <span class="text-xs text-gray-500 truncate">江苏省苏州市昆山市玉山镇柏庐南路博悦广场</span>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">门店发车时间: 暂无</div>
+                        </div>
+                    </div>
+                    <div class="absolute right-2 bottom-2">
+                        <div class="w-14 h-7 rounded border border-orange-300 flex items-center justify-center text-xs text-orange-400">五星门店</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部填充区域，确保内容能够滚动到底部按钮上方 -->
+        <div class="h-24"></div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="fixed bottom-0 left-0 right-0 max-w-[414px] mx-auto flex justify-between items-center bg-white border-t border-gray-200 p-3">
+        <button class="px-8 py-2.5 border border-gray-300 text-gray-700 rounded-full font-medium">上一步</button>
+        <button class="flex-1 ml-3 primary-gradient text-white py-2.5 rounded-full text-base font-medium wx-button-hover">确认报名</button>
+    </div>
+
+    <!-- 引入专用的JavaScript文件 -->
+    <script src="js/factory-entry.js"></script>
+</body>
+</html> 

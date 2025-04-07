@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>企业信息 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1', // 紫色作为主色调
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f9f6f2;
+            color: #333;
+        }
+        
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .image-gallery::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .gallery-image {
+            width: 110px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: #333;
+            margin: 20px 0 10px 0;
+        }
+        
+        .content-text {
+            color: #333;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden bg-[#f9f6f2]">
+    <!-- 顶部状态栏 -->
+    <div class="primary-gradient px-4 py-1 flex justify-between items-center text-white text-xs">
+        <span>21:14</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C10.9 2 10 2.9 10 4V20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20V4C14 2.9 13.1 2 12 2ZM7.4 4C6.7 4 6.2 4.6 6.3 5.3C6.4 6.1 6.5 6.9 6.7 7.7C7 9 7.5 10.3 8.1 11.4C8.5 12.1 9.4 12.1 9.8 11.4C10.4 10.3 10.9 9 11.1 7.7C11.3 6.9 11.4 6.1 11.5 5.3C11.5 4.6 11 4 10.3 4H7.4ZM16.6 4C15.9 4 15.4 4.6 15.5 5.3C15.6 6.1 15.7 6.9 15.9 7.7C16.2 9 16.7 10.3 17.3 11.4C17.7 12.1 18.6 12.1 19 11.4C19.6 10.3 20.1 9 20.3 7.7C20.5 6.9 20.6 6.1 20.7 5.3C20.8 4.6 20.3 4 19.6 4H16.6Z"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="flex justify-between items-center px-4 py-3 bg-[#f9f6f2] border-b border-gray-200">
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center text-base font-medium">企业信息</div>
+        <div class="flex items-center space-x-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="flex-1 overflow-y-auto px-4 py-3">
+        <!-- 企业名称和规模 -->
+        <h1 class="text-lg font-bold text-gray-800">珠海伟创力</h1>
+        <p class="text-gray-500 text-sm">2000-5000人 | 外资企业</p>
+
+        <!-- 企业图片展示 -->
+        <div class="mt-3 image-gallery">
+            <div class="gallery-image border border-gray-300 flex items-center justify-center text-xs text-gray-400">厂区照片1</div>
+            <div class="gallery-image border border-gray-300 flex items-center justify-center text-xs text-gray-400">厂区照片2</div>
+            <div class="gallery-image border border-gray-300 flex items-center justify-center text-xs text-gray-400">厂区照片3</div>
+        </div>
+
+        <!-- 公司地址 -->
+        <h2 class="section-title">公司地址</h2>
+        <div class="flex items-center justify-between">
+            <p class="content-text flex-1">广东省珠海市斗门区井岸镇新堂路(超毅电子厂对面)</p>
+            <button class="flex items-center bg-white text-gray-600 px-3 py-1 rounded-full text-sm ml-3 border border-gray-300">
+                <span class="font-medium">导航</span>
+            </button>
+        </div>
+
+        <!-- 公司环境 -->
+        <h2 class="section-title">公司环境</h2>
+        <p class="content-text">工作环境：空调车间，恒温，80%坐班，岗位简单，普通车间，无尘车间完善，下班无走返需求，个别生活用品失去功能，无空调宿舍，无生活用品，体内带金属不接收。</p>
+
+        <!-- 生产产品 -->
+        <h2 class="section-title">生产产品</h2>
+        <p class="content-text">企业主要生产：服务器、电话机、打印机、游戏机、扫地机等等电子产品。</p>
+    </div>
+
+    <!-- 引入专用的JavaScript文件 -->
+    <script src="js/company-info.js"></script>
+</body>
+</html> 

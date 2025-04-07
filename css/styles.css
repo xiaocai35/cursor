@@ -54,4 +54,49 @@
 .card-hover:active {
     transform: scale(0.98);
     transition: transform 0.2s;
+}
+
+/* 职位详情页样式 */
+.detail-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-right: 8px;
+    color: #666;
+    background-color: #f5f5f5;
+}
+
+.detail-section {
+    margin-bottom: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.detail-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.detail-item {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.detail-label {
+    width: 80px;
+    color: #666;
+    font-size: 14px;
+}
+
+.detail-value {
+    flex: 1;
+    color: #333;
+    font-size: 14px;
+}
+
+.primary-bg-light {
+    background-color: rgba(138, 51, 209, 0.1);
 } 

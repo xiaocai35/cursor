@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>实名认证 - 蓝诚人力</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1', // 紫色作为主色调
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f8f8f8;
+        }
+        .form-input {
+            border: none;
+            background-color: transparent;
+            padding: 12px 0;
+            width: 100%;
+            outline: none;
+            text-align: right;
+            color: #999;
+        }
+        .form-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .form-item:last-child {
+            border-bottom: none;
+        }
+        .form-label {
+            display: flex;
+            align-items: center;
+            color: #333;
+            width: 60px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .form-label.required::before {
+            content: '*';
+            color: #8A33D1;
+            margin-right: 2px;
+        }
+        .id-card-upload {
+            border: 1px dashed #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        .plus-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #8A33D1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .info-box {
+            background-color: #f8f8f8;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .checkbox-custom {
+            position: relative;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .checkbox-custom.checked {
+            border-color: #8A33D1;
+        }
+        .checkbox-custom.checked::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 10px;
+            height: 10px;
+            background-color: #8A33D1;
+            border-radius: 50%;
+        }
+        .purple-link {
+            color: #8A33D1;
+        }
+        .btn-primary {
+            background-color: #8A33D1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .verification-code-btn {
+            background-color: #f2f2f2;
+            color: #666;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            min-width: 80px;
+        }
+        
+        /* 表格样式 */
+        .table-container {
+            margin: 10px 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .table-header {
+            display: flex;
+            background-color: #f5f5f5;
+            padding: 10px;
+        }
+        .table-header-cell {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            font-weight: normal;
+        }
+        .table-row {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+        }
+        .table-cell {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto">
+    <!-- 状态栏 -->
+    <div class="flex justify-between items-center px-4 py-1 bg-black text-white text-xs">
+        <span>19:36</span>
+        <div class="flex items-center space-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z"/>
+            </svg>
+            <span class="text-xs">43%</span>
+        </div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <div class="bg-white px-4 py-3 flex items-center justify-between">
+        <a href="#" class="text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
+        <h1 class="text-center text-base font-medium text-gray-800">实名认证</h1>
+        <div class="flex space-x-4">
+            <a href="#" class="text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+            </a>
+            <a href="#" class="text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- 信息提示栏 -->
+    <div class="bg-gray-100 px-4 py-3 text-sm text-gray-600">
+        为能够报名高薪企业，入职后享受预支、查看工资条等服务，请填写与您身份证一致的信息。
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="flex-1 overflow-y-auto px-4 py-4">
+        <!-- 身份证上传区域 -->
+        <div class="mb-4">
+            <h2 class="text-sm font-medium text-primary mb-2">*上传身份证信息 (证件信息需真实清晰)</h2>
+            
+            <div class="flex justify-between mb-4">
+                <div class="id-card-upload w-[48%] h-32">
+                    <div class="plus-icon">+</div>
+                    <p class="text-gray-500 text-sm">身份证人像面</p>
+                </div>
+                <div class="id-card-upload w-[48%] h-32">
+                    <div class="plus-icon">+</div>
+                    <p class="text-gray-500 text-sm">身份证国徽面</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表单区域 -->
+        <div class="bg-white rounded-lg mb-4">
+            <div class="px-4">
+                <div class="form-item">
+                    <label class="form-label required">姓名</label>
+                    <input type="text" class="form-input" placeholder="请输入姓名">
+                </div>
+                
+                <div class="form-item">
+                    <label class="form-label required">身份证</label>
+                    <input type="text" class="form-input" placeholder="请输入身份证号">
+                </div>
+                
+                <div class="form-item">
+                    <label class="form-label">民族</label>
+                    <input type="text" class="form-input" placeholder="请输入民族">
+                </div>
+                
+                <div class="form-item">
+                    <label class="form-label required">手机</label>
+                    <input type="tel" class="form-input" placeholder="请输入手机号">
+                </div>
+                
+                <div class="form-item">
+                    <label class="form-label required">验证码</label>
+                    <div class="flex items-center">
+                        <input type="text" class="form-input mr-2" placeholder="请输入验证码">
+                        <button class="verification-code-btn">获取验证码</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户协议确认 -->
+        <div class="checkbox-container">
+            <div class="checkbox-custom" id="agreementCheckbox"></div>
+            <span class="text-sm text-gray-700">我已阅读并同意 <a href="#" class="purple-link">《个人实名认证服务协议》</a></span>
+        </div>
+
+        <!-- 底部按钮 -->
+        <div class="mt-8">
+            <button class="btn-primary">立即认证</button>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 处理复选框点击
+            const checkboxEl = document.getElementById('agreementCheckbox');
+            checkboxEl.addEventListener('click', function() {
+                this.classList.toggle('checked');
+            });
+            
+            // 获取验证码按钮
+            const verifyBtn = document.querySelector('.verification-code-btn');
+            verifyBtn.addEventListener('click', function() {
+                let countdown = 60;
+                const originalText = this.textContent;
+                this.disabled = true;
+                
+                const timer = setInterval(() => {
+                    countdown--;
+                    this.textContent = `${countdown}s后重试`;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        this.textContent = originalText;
+                        this.disabled = false;
+                    }
+                }, 1000);
+            });
+            
+            // 上传身份证点击处理
+            const uploadAreas = document.querySelectorAll('.id-card-upload');
+            uploadAreas.forEach(area => {
+                area.addEventListener('click', function() {
+                    alert('选择上传照片');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
