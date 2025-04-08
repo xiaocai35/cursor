@@ -87,60 +87,56 @@
 
     <!-- 主内容区域 -->
     <div class="flex-1 overflow-y-auto bg-gray-50 scrollbar-hide">
-        <!-- 职位卡片 -->
-        <div class="mx-4 my-3 bg-white rounded-lg custom-shadow p-3 card-hover fade-in" style="animation-delay: 0.1s">
-            <a href="job-detail.html" class="block">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-start">
-                        <div class="bg-purple-100 rounded-md p-1 mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+        <!-- 职位卡片 - 物流搬运工 -->
+        <div class="mx-4 my-3 bg-white rounded-lg p-3 card-hover fade-in" style="animation-delay: 0.1s">
+            <div class="block" onclick="window.location.href='job-detail.html';" style="cursor: pointer;">
+                <div class="flex items-start">
+                    <div class="mr-2 bg-purple-100 rounded-full p-1 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <span class="text-amber-500 text-sm">03月31日</span>
+                            <span class="ml-2 font-medium">物流搬运工</span>
+                            <span class="ml-auto text-purple-700 font-medium">22元/时</span>
                         </div>
-                        <div>
-                            <div class="flex items-center">
-                                <span class="text-amber-500 text-sm">03月31日</span>
-                                <span class="ml-3 font-medium">物流搬运工</span>
-                                <span class="ml-auto text-purple-700 font-medium">22元/时</span>
-                            </div>
-                            <div class="mt-2 text-sm text-gray-500">石狮通达 福建省·石狮</div>
-                            <div class="flex flex-wrap mt-2">
-                                <span class="job-tag">包吃</span>
-                                <span class="job-tag">包住</span>
-                                <span class="job-tag">企业保险</span>
-                            </div>
+                        <div class="text-sm text-gray-500 mt-1.5">石狮通达 福建省·石狮</div>
+                        <div class="flex flex-wrap mt-1.5 gap-1">
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">包吃</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">包住</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">企业保险</span>
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-100">
                     <div class="text-sm text-gray-500">已报名: <span class="text-primary">12+</span></div>
-                    <button class="primary-gradient text-white px-5 py-1 rounded-full text-sm wx-button-hover">报名</button>
+                    <button class="primary-gradient text-white px-5 py-1 rounded-full text-sm wx-button-hover" onclick="event.stopPropagation();">报名</button>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <!-- 更多职位卡片 -->
-        <div class="mx-4 my-3 bg-white rounded-lg custom-shadow p-3 card-hover fade-in" style="animation-delay: 0.2s">
+        <!-- 更多职位卡片 - 工厂普工 -->
+        <div class="mx-4 my-3 bg-white rounded-lg p-3 fade-in" style="animation-delay: 0.2s">
             <a href="job-detail.html" class="block">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-start">
-                        <div class="bg-purple-100 rounded-md p-1 mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+                <div class="flex items-start">
+                    <div class="mr-2 bg-purple-100 rounded-full p-1 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <span class="text-amber-500 text-sm">04月01日</span>
+                            <span class="ml-2 font-medium">工厂普工</span>
+                            <span class="ml-auto text-purple-700 font-medium">4500元/月</span>
                         </div>
-                        <div>
-                            <div class="flex items-center">
-                                <span class="text-amber-500 text-sm">04月01日</span>
-                                <span class="ml-3 font-medium">工厂普工</span>
-                                <span class="ml-auto text-purple-700 font-medium">4500元/月</span>
-                            </div>
-                            <div class="mt-2 text-sm text-gray-500">晋江鞋厂 福建省·晋江</div>
-                            <div class="flex flex-wrap mt-2">
-                                <span class="job-tag">包吃</span>
-                                <span class="job-tag">包住</span>
-                                <span class="job-tag">五险一金</span>
-                            </div>
+                        <div class="text-sm text-gray-500 mt-1.5">晋江鞋厂 福建省·晋江</div>
+                        <div class="flex flex-wrap mt-1.5 gap-1">
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">包吃</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">包住</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">五险一金</span>
                         </div>
                     </div>
                 </div>
@@ -151,27 +147,26 @@
             </a>
         </div>
 
-        <div class="mx-4 my-3 bg-white rounded-lg custom-shadow p-3 card-hover fade-in" style="animation-delay: 0.3s">
+        <!-- 餐厅服务员 -->
+        <div class="mx-4 my-3 bg-white rounded-lg p-3 fade-in" style="animation-delay: 0.3s">
             <a href="job-detail.html" class="block">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-start">
-                        <div class="bg-purple-100 rounded-md p-1 mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+                <div class="flex items-start">
+                    <div class="mr-2 bg-purple-100 rounded-full p-1 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <span class="text-amber-500 text-sm">04月02日</span>
+                            <span class="ml-2 font-medium">餐厅服务员</span>
+                            <span class="ml-auto text-purple-700 font-medium">18元/时</span>
                         </div>
-                        <div>
-                            <div class="flex items-center">
-                                <span class="text-amber-500 text-sm">04月02日</span>
-                                <span class="ml-3 font-medium">餐厅服务员</span>
-                                <span class="ml-auto text-purple-700 font-medium">18元/时</span>
-                            </div>
-                            <div class="mt-2 text-sm text-gray-500">泉州餐饮集团 福建省·泉州</div>
-                            <div class="flex flex-wrap mt-2">
-                                <span class="job-tag">包吃</span>
-                                <span class="job-tag">有提成</span>
-                                <span class="job-tag">无经验可</span>
-                            </div>
+                        <div class="text-sm text-gray-500 mt-1.5">泉州餐饮集团 福建省·泉州</div>
+                        <div class="flex flex-wrap mt-1.5 gap-1">
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">包吃</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">有提成</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">无经验可</span>
                         </div>
                     </div>
                 </div>
@@ -182,27 +177,26 @@
             </a>
         </div>
 
-        <div class="mx-4 my-3 bg-white rounded-lg custom-shadow p-3 card-hover fade-in" style="animation-delay: 0.4s">
+        <!-- 电商客服 -->
+        <div class="mx-4 my-3 bg-white rounded-lg p-3 fade-in" style="animation-delay: 0.4s">
             <a href="job-detail.html" class="block">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-start">
-                        <div class="bg-purple-100 rounded-md p-1 mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+                <div class="flex items-start">
+                    <div class="mr-2 bg-purple-100 rounded-full p-1 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center">
+                            <span class="text-amber-500 text-sm">04月03日</span>
+                            <span class="ml-2 font-medium">电商客服</span>
+                            <span class="ml-auto text-purple-700 font-medium">4800元/月</span>
                         </div>
-                        <div>
-                            <div class="flex items-center">
-                                <span class="text-amber-500 text-sm">04月03日</span>
-                                <span class="ml-3 font-medium">电商客服</span>
-                                <span class="ml-auto text-purple-700 font-medium">4800元/月</span>
-                            </div>
-                            <div class="mt-2 text-sm text-gray-500">石狮电商 福建省·石狮</div>
-                            <div class="flex flex-wrap mt-2">
-                                <span class="job-tag">五险</span>
-                                <span class="job-tag">双休</span>
-                                <span class="job-tag">有提成</span>
-                            </div>
+                        <div class="text-sm text-gray-500 mt-1.5">石狮电商 福建省·石狮</div>
+                        <div class="flex flex-wrap mt-1.5 gap-1">
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">五险</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">双休</span>
+                            <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">有提成</span>
                         </div>
                     </div>
                 </div>

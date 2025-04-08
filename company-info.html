@@ -15,6 +15,12 @@
                         secondary: '#F6F7FB',
                         textGray: '#666666',
                         lightGray: '#EEEEEE',
+                        accent1: '#FF6B6B', // 珊瑚红
+                        accent2: '#4ECDC4', // 薄荷绿
+                        accent3: '#FFD166', // 明黄色
+                        accent4: '#6A0572', // 深紫色
+                        gradientFrom: '#8A33D1',
+                        gradientTo: '#532A8F',
                     }
                 }
             }
@@ -27,6 +33,10 @@
             -moz-osx-font-smoothing: grayscale;
             background-color: #f9f6f2;
             color: #333;
+        }
+        
+        .primary-gradient {
+            background: linear-gradient(135deg, #8A33D1, #532A8F);
         }
         
         .image-gallery {
@@ -62,6 +72,34 @@
             line-height: 1.6;
             font-size: 14px;
         }
+        
+        .company-banner {
+            background: linear-gradient(135deg, rgba(138, 51, 209, 0.8), rgba(106, 5, 114, 0.8)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            color: white;
+            margin-right: 5px;
+        }
+        
+        .badge-purple {
+            background-color: #8A33D1;
+        }
+        
+        .badge-coral {
+            background-color: #FF6B6B;
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden bg-[#f9f6f2]">
@@ -96,9 +134,14 @@
 
     <!-- 主要内容区域 -->
     <div class="flex-1 overflow-y-auto px-4 py-3">
-        <!-- 企业名称和规模 -->
-        <h1 class="text-lg font-bold text-gray-800">珠海伟创力</h1>
-        <p class="text-gray-500 text-sm">2000-5000人 | 外资企业</p>
+        <!-- 企业卡片 - 保留这一部分 -->
+        <div class="company-banner">
+            <h1 class="text-xl font-bold mb-1">珠海伟创力</h1>
+            <div class="flex items-center">
+                <span class="badge badge-purple">2000-5000人</span>
+                <span class="badge badge-coral">外资企业</span>
+            </div>
+        </div>
 
         <!-- 企业图片展示 -->
         <div class="mt-3 image-gallery">
