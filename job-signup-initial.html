@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>求职报名 - 蓝诚人力</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1', // 紫色作为主色调
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f8f8f8;
+        }
+        .primary-gradient {
+            background: linear-gradient(90deg, #9138DE 0%, #7931CA 100%);
+        }
+        .step-active {
+            background-color: #8A33D1;
+            color: white;
+        }
+        .step-pending {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+        }
+        .form-input {
+            border: none;
+            padding: 8px 0;
+            width: 100%;
+            outline: none;
+            text-align: right;
+        }
+        .form-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .form-item:last-child {
+            border-bottom: none;
+        }
+        .form-label {
+            color: #374151;
+            width: 80px;
+        }
+        .orange-text {
+            color: #8A33D1;
+        }
+        .checkbox-custom {
+            position: relative;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: #fff;
+            border: 2px solid #8A33D1;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .checkbox-custom.checked::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 8px;
+            height: 8px;
+            background-color: #8A33D1;
+            border-radius: 50%;
+        }
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .id-card-upload {
+            height: 120px;
+            border-radius: 8px;
+            border: 1px dashed #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .id-card-upload .plus-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(138, 51, 209, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+        .id-card-upload .plus-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #8A33D1;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto">
+    <!-- 状态栏 -->
+    <div class="flex justify-between items-center px-4 py-1 primary-gradient text-white text-xs">
+        <span>21:10</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">...</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <div class="bg-white px-4 py-3 flex items-center justify-between">
+        <a href="#" class="text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
+        <h1 class="text-center text-base font-medium text-gray-800">求职报名</h1>
+        <div class="flex space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 步骤指示器 -->
+    <div class="bg-white px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center flex-col relative">
+            <div class="flex items-center justify-center w-7 h-7 rounded-full step-active text-xs mb-1 z-10">1</div>
+            <span class="text-xs orange-text font-medium">确认身份信息</span>
+            <div class="absolute top-3.5 left-7 h-[2px] w-[100px] bg-gray-200 -z-0"></div>
+        </div>
+        <div class="flex items-center flex-col relative">
+            <div class="flex items-center justify-center w-7 h-7 rounded-full step-pending text-xs mb-1 z-10">2</div>
+            <span class="text-xs text-gray-400">选择到厂方式</span>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="flex-1 overflow-y-auto px-4 py-4">
+        <!-- 岗位信息卡片 -->
+        <div class="card">
+            <div class="p-4">
+                <div class="form-item">
+                    <div class="form-label">报名企业</div>
+                    <div class="text-gray-700">珠海伟创力</div>
+                </div>
+                <div class="form-item">
+                    <div class="form-label">岗位</div>
+                    <div class="text-gray-700">公寓宿舍 免费体检</div>
+                </div>
+                <div class="form-item">
+                    <div class="form-label">用工模式</div>
+                    <div class="text-gray-700">正式工</div>
+                </div>
+                <div class="form-item">
+                    <div class="form-label">工价</div>
+                    <div class="text-gray-700">22元/时</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 身份信息卡片 -->
+        <div class="card">
+            <div class="p-4">
+                <div class="orange-text font-medium mb-2">* 上传身份证信息（证件信息需真实清晰）</div>
+                <div class="flex gap-4 mb-4">
+                    <div class="id-card-upload flex-1">
+                        <div class="plus-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+                        <div class="text-sm text-gray-500">身份证人像面</div>
+                    </div>
+                    <div class="id-card-upload flex-1">
+                        <div class="plus-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+                        <div class="text-sm text-gray-500">身份证国徽面</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手机号信息卡片 -->
+        <div class="card">
+            <div class="p-4">
+                <div class="orange-text font-medium mb-2">* 验证手机号</div>
+                <div class="form-item">
+                    <div class="form-label">手机号码</div>
+                    <div class="text-gray-700">15559023999</div>
+                </div>
+                <div class="flex items-center mt-2">
+                    <div class="flex-1">
+                        <input type="text" placeholder="请输入验证码" class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                    </div>
+                    <button class="ml-3 px-4 py-2 bg-primary text-white rounded-md text-sm">获取验证码</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户协议确认 -->
+        <div class="mb-20 px-2">
+            <div class="flex items-center mb-2">
+                <div class="checkbox-custom checked"></div>
+                <span class="text-sm text-gray-700">同意并授权以上身份信息用于身份验证及求职</span>
+            </div>
+            <div class="flex items-center">
+                <div class="checkbox-custom checked"></div>
+                <span class="text-sm text-gray-700">我已阅读并认同该位信息及招聘要求</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="fixed bottom-0 left-0 right-0 max-w-[414px] mx-auto p-4 bg-white">
+        <button class="w-full py-3 rounded-lg text-base font-medium text-white primary-gradient">下一步</button>
+    </div>
+</body>
+</html> 

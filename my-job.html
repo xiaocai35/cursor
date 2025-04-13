@@ -15,8 +15,8 @@
                         secondary: '#F6F7FB',
                         textGray: '#666666',
                         lightGray: '#EEEEEE',
-                        bgOrange: '#f9f6f2',
-                        textOrange: '#ff7043',
+                        bgOrange: '#f2eef8',
+                        textOrange: '#8A33D1',
                     }
                 }
             }
@@ -72,7 +72,7 @@
         
         .active-step {
             color: white;
-            background-color: #ff7043;
+            background-color: #8A33D1;
         }
         
         .inactive-step {
@@ -95,7 +95,7 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            border: 2px solid #ff7043;
+            border: 2px solid #8A33D1;
             margin-right: 12px;
             display: flex;
             align-items: center;
@@ -103,7 +103,7 @@
         }
         
         .todo-radio.checked {
-            background-color: #ff7043;
+            background-color: #8A33D1;
         }
     </style>
 </head>
@@ -149,8 +149,8 @@
         <!-- 职位信息 -->
         <div class="mt-3">
             <h2 class="text-lg font-medium text-gray-800">东莞富士康·富桂精密·体检免费 东莞 CN</h2>
-            <div class="bg-orange-100 text-textOrange font-medium px-2 py-1 rounded inline-block mt-1">21元/时</div>
-            <div class="bg-orange-50 px-2 py-1 rounded-sm inline-block mt-1 ml-2">
+            <div class="bg-purple-100 text-primary font-medium px-2 py-1 rounded inline-block mt-1">21元/时</div>
+            <div class="bg-purple-50 px-2 py-1 rounded-sm inline-block mt-1 ml-2">
                 <span class="text-gray-600 text-sm">支持企业</span>
                 <svg class="inline-block h-3 w-3 text-yellow-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
@@ -164,17 +164,17 @@
         <div class="process-step">
             <div class="process-line"></div>
             <div class="process-step-number active-step">1</div>
-            <span class="text-xs text-textOrange">岗位填写</span>
+            <span class="text-xs text-primary">岗位填写</span>
         </div>
         <div class="process-step">
             <div class="process-line"></div>
             <div class="process-step-number active-step">2</div>
-            <span class="text-xs text-textOrange">到厂面试</span>
+            <span class="text-xs text-primary">到厂面试</span>
         </div>
         <div class="process-step">
             <div class="process-line"></div>
             <div class="process-step-number active-step">3</div>
-            <span class="text-xs text-textOrange">录取签约</span>
+            <span class="text-xs text-primary">录取签约</span>
         </div>
         <div class="process-step">
             <div class="process-line"></div>
@@ -196,7 +196,7 @@
         
         <!-- 办理事项列表 -->
         <div class="mt-2">
-            <div class="todo-item">
+            <div class="todo-item" onclick="window.location.href='job-detail.html';" style="cursor: pointer;">
                 <div class="todo-radio checked">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
@@ -214,7 +214,7 @@
                 </svg>
             </div>
             
-            <div class="todo-item">
+            <div class="todo-item" onclick="window.location.href='complete-info.html';" style="cursor: pointer;">
                 <div class="todo-radio checked">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
@@ -252,7 +252,7 @@
         <h3 class="font-medium text-gray-800 mb-3">到厂说明:</h3>
         
         <div class="text-sm">
-            <div class="text-gray-700 mb-2">到厂方式: 华辉专车进厂 <span class="text-textOrange font-medium">修改到厂方式</span></div>
+            <div class="text-gray-700 mb-2">到厂方式: 华辉专车进厂 <span class="text-primary font-medium">修改到厂方式</span></div>
             <div class="text-gray-700 mb-2">集合门店: 华辉人力-华东运营中心</div>
             
             <div class="mt-3 text-gray-700">门店发车时间: 暂无</div>
@@ -272,7 +272,7 @@
                     </svg>
                     门店接待
                 </button>
-                <button class="flex items-center justify-center bg-orange-100 rounded-full text-textOrange px-4 py-1 text-sm">
+                <button class="flex items-center justify-center bg-purple-100 rounded-full text-primary px-4 py-1 text-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
@@ -288,7 +288,7 @@
         
         <div class="text-sm text-gray-700">
             <h4 class="font-medium mb-1">准备资料</h4>
-            <ul class="list-disc pl-5 mb-3 text-textOrange space-y-1">
+            <ul class="list-disc pl-5 mb-3 text-primary space-y-1">
                 <li>身份证原件</li>
                 <li>银行卡/折1张</li>
                 <li>照片1张不限色</li>
