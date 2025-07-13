@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>添加提现方式 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        rewardRed: '#FF5B5B',
+                        rewardOrange: '#FFA046',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .method-option {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .method-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .method-option:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-primary">
+        <span>21:14</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="px-4 py-3 flex justify-between items-center bg-white border-b border-gray-100">
+        <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center font-medium text-gray-800">添加提现方式</div>
+        <div class="flex items-center space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50 px-4 py-6">
+        <!-- 提示信息 -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div class="flex items-start space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                    <div class="text-sm font-medium text-blue-800">温馨提示</div>
+                    <div class="text-xs text-blue-600 mt-1">为了保障您的资金安全，请确保提现信息准确无误</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 提现方式选择 -->
+        <div class="mb-6">
+            <div class="text-gray-800 font-medium mb-4">选择要添加的提现方式</div>
+            
+            <!-- 银行卡选项 -->
+            <div class="method-option bg-white rounded-lg p-4 mb-3 border border-gray-200 shadow-sm" onclick="addBankCard()">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-800">添加银行卡</div>
+                            <div class="text-sm text-gray-500">支持储蓄卡，1-3个工作日到账</div>
+                        </div>
+                    </div>
+                    <div class="text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 支付宝选项 -->
+            <div class="method-option bg-white rounded-lg p-4 mb-3 border border-gray-200 shadow-sm" onclick="addAlipay()">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-800">添加支付宝</div>
+                            <div class="text-sm text-gray-500">即时到账，2小时内到账</div>
+                        </div>
+                    </div>
+                    <div class="text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 微信选项 -->
+            <div class="method-option bg-white rounded-lg p-4 mb-3 border border-gray-200 shadow-sm" onclick="addWeChat()">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-800">添加微信</div>
+                            <div class="text-sm text-gray-500">即时到账，2小时内到账</div>
+                        </div>
+                    </div>
+                    <div class="text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 说明信息 -->
+        <div class="bg-white rounded-lg p-4 mb-6">
+            <div class="text-sm font-medium text-gray-800 mb-2">添加说明</div>
+            <div class="text-xs text-gray-600 space-y-1">
+                <div>• 银行卡：仅支持本人名下储蓄卡</div>
+                <div>• 支付宝：需要实名认证的支付宝账户</div>
+                <div>• 微信：需要实名认证的微信账户</div>
+                <div>• 提现账户信息请确保准确无误</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/add-withdraw-method.js"></script>
+</body>
+</html> 

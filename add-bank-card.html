@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>添加银行卡 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        rewardRed: '#FF5B5B',
+                        rewardOrange: '#FFA046',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.15s ease-in-out;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #8A33D1;
+            box-shadow: 0 0 0 3px rgba(138, 51, 209, 0.1);
+        }
+
+        .input-field.error {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .bank-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-primary">
+        <span>21:14</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="px-4 py-3 flex justify-between items-center bg-white border-b border-gray-100">
+        <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center font-medium text-gray-800">添加银行卡</div>
+        <div class="flex items-center space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50 px-4 py-6">
+        <!-- 银行卡图标 -->
+        <div class="flex justify-center mb-6">
+            <div class="bank-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- 提示信息 -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div class="flex items-start space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                    <div class="text-sm font-medium text-blue-800">安全提示</div>
+                    <div class="text-xs text-blue-600 mt-1">请确保银行卡为本人名下储蓄卡，不支持信用卡</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表单 -->
+        <form id="bankCardForm" class="space-y-4">
+            <!-- 持卡人姓名 -->
+            <div class="input-group">
+                <label class="input-label">持卡人姓名</label>
+                <input type="text" id="cardholderName" class="input-field" placeholder="请输入持卡人姓名" maxlength="20">
+                <div id="cardholderNameError" class="error-message" style="display: none;"></div>
+            </div>
+
+            <!-- 银行卡号 -->
+            <div class="input-group">
+                <label class="input-label">银行卡号</label>
+                <input type="text" id="cardNumber" class="input-field" placeholder="请输入银行卡号" maxlength="19">
+                <div id="cardNumberError" class="error-message" style="display: none;"></div>
+                <div id="bankInfo" class="success-message" style="display: none;"></div>
+            </div>
+
+            <!-- 手机号 -->
+            <div class="input-group">
+                <label class="input-label">预留手机号</label>
+                <input type="tel" id="phoneNumber" class="input-field" placeholder="请输入银行预留手机号" maxlength="11">
+                <div id="phoneNumberError" class="error-message" style="display: none;"></div>
+            </div>
+
+            <!-- 身份证号 -->
+            <div class="input-group">
+                <label class="input-label">身份证号</label>
+                <input type="text" id="idNumber" class="input-field" placeholder="请输入身份证号" maxlength="18">
+                <div id="idNumberError" class="error-message" style="display: none;"></div>
+            </div>
+        </form>
+
+        <!-- 服务协议 -->
+        <div class="mt-6 p-4 bg-white rounded-lg">
+            <label class="flex items-start space-x-2">
+                <input type="checkbox" id="agreeTerms" class="mt-1 h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary">
+                <span class="text-sm text-gray-600">
+                    我已阅读并同意
+                    <a href="#" class="text-primary underline">《银行卡绑定服务协议》</a>
+                    和
+                    <a href="#" class="text-primary underline">《隐私政策》</a>
+                </span>
+            </label>
+        </div>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="p-4 bg-white border-t border-gray-100">
+        <button id="submitBtn" class="w-full bg-gray-400 text-white font-medium py-3 rounded-lg transition-colors duration-200 cursor-not-allowed" disabled onclick="submitBankCard()">
+            提交
+        </button>
+    </div>
+
+    <script src="js/add-bank-card.js"></script>
+</body>
+</html> 

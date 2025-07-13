@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>工时详情 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        rewardRed: '#FF5B5B',
+                        rewardOrange: '#FFA046',
+                        statusGreen: '#4CAF50',
+                        statusBlue: '#2196F3',
+                        statusGray: '#9E9E9E',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .reward-bg-gradient {
+            background: linear-gradient(135deg, #FF5B5B 0%, #FFA046 100%);
+        }
+        
+        .work-day-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+        
+        .work-day-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .work-day-card.rest-day {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+        }
+        
+        .work-day-card.rest-day:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .status-working { background-color: #4CAF50; }
+        .status-resigned { background-color: #9E9E9E; }
+        
+        .month-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .month-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .month-btn.active {
+            background-color: white;
+            color: #FF5B5B;
+            border-color: white;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .total-summary {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 20px rgba(255, 91, 91, 0.1);
+        }
+        
+        .weekday-label {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .avatar-placeholder {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-rewardRed">
+        <span>12:00</span>
+        <div class="flex items-center space-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xs">100%</span>
+        </div>
+    </div>
+
+    <!-- 头部区域 -->
+    <div class="reward-bg-gradient">
+        <!-- 顶部导航 -->
+        <div class="px-4 py-3 flex justify-between items-center text-white">
+            <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </div>
+            <div class="text-center font-medium">工时详情</div>
+            <div class="flex items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- 人员信息卡片 -->
+        <div class="px-4 pb-4">
+            <div class="summary-card">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar-placeholder" id="personAvatar">张三</div>
+                        <div>
+                            <div class="text-lg font-medium text-white" id="personName">张三</div>
+                            <div class="text-sm text-white opacity-80" id="personPhone">138****5678</div>
+                            <div class="text-xs text-white opacity-70" id="personPosition">生产线操作工</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="status-badge status-working" id="personStatus">在职</div>
+                        <div class="text-lg font-bold text-white mt-1" id="personCommission">每小时¥4</div>
+                    </div>
+                </div>
+                
+                <!-- 月份选择器 -->
+                <div class="month-selector">
+                    <button class="month-btn" data-month="2024-11">11月</button>
+                    <button class="month-btn active" data-month="2024-12">12月</button>
+                    <button class="month-btn" data-month="2025-01">1月</button>
+                </div>
+                
+                <!-- 月度统计 -->
+                <div class="grid grid-cols-3 gap-4 text-center text-white">
+                    <div>
+                        <div class="text-lg font-bold" id="monthTotalHours">180</div>
+                        <div class="text-xs opacity-80">总工时</div>
+                    </div>
+                    <div>
+                        <div class="text-lg font-bold" id="monthWorkDays">22</div>
+                        <div class="text-xs opacity-80">工作天数</div>
+                    </div>
+                    <div>
+                        <div class="text-lg font-bold" id="monthTotalReward">¥720</div>
+                        <div class="text-xs opacity-80">总佣金</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50 px-4 py-4">
+        <!-- 工时详情列表 -->
+        <div class="space-y-2" id="workDetailsList">
+            <!-- 工作日记录 -->
+            <div class="work-day-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-800">2024年12月1日</div>
+                        <div class="text-xs text-gray-500">星期日</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-rewardRed">¥32</div>
+                        <div class="text-xs text-gray-500">工时：8小时</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    上班时间：08:00 - 17:00（休息1小时）
+                </div>
+            </div>
+
+            <div class="work-day-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-800">2024年12月2日</div>
+                        <div class="text-xs text-gray-500">星期一</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-rewardRed">¥36</div>
+                        <div class="text-xs text-gray-500">工时：9小时</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    上班时间：08:00 - 18:00（休息1小时）
+                </div>
+            </div>
+
+            <div class="work-day-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-800">2024年12月3日</div>
+                        <div class="text-xs text-gray-500">星期二</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-rewardRed">¥32</div>
+                        <div class="text-xs text-gray-500">工时：8小时</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    上班时间：08:00 - 17:00（休息1小时）
+                </div>
+            </div>
+
+            <div class="work-day-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-800">2024年12月4日</div>
+                        <div class="text-xs text-gray-500">星期三</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-rewardRed">¥40</div>
+                        <div class="text-xs text-gray-500">工时：10小时</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    上班时间：08:00 - 19:00（休息1小时）
+                </div>
+            </div>
+
+            <div class="work-day-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-800">2024年12月5日</div>
+                        <div class="text-xs text-gray-500">星期四</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-rewardRed">¥32</div>
+                        <div class="text-xs text-gray-500">工时：8小时</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    上班时间：08:00 - 17:00（休息1小时）
+                </div>
+            </div>
+
+            <div class="work-day-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-800">2024年12月6日</div>
+                        <div class="text-xs text-gray-500">星期五</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-rewardRed">¥36</div>
+                        <div class="text-xs text-gray-500">工时：9小时</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    上班时间：08:00 - 18:00（休息1小时）
+                </div>
+            </div>
+
+            <!-- 休息日 -->
+            <div class="work-day-card rest-day">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-500">2024年12月7日</div>
+                        <div class="text-xs text-gray-400">星期六</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-gray-400">¥0</div>
+                        <div class="text-xs text-gray-400">休息日</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    休息日，无工时记录
+                </div>
+            </div>
+
+            <div class="work-day-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-gray-800">2024年12月8日</div>
+                        <div class="text-xs text-gray-500">星期日</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-rewardRed">¥32</div>
+                        <div class="text-xs text-gray-500">工时：8小时</div>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-400">
+                    上班时间：08:00 - 17:00（休息1小时）
+                </div>
+            </div>
+
+            <!-- 更多日期占位符 -->
+            <div class="text-center py-4">
+                <div class="text-sm text-gray-400">... 显示更多日期记录 ...</div>
+                <button class="mt-2 text-rewardRed text-sm font-medium">加载更多</button>
+            </div>
+        </div>
+
+        <!-- 月度总结 -->
+        <div class="total-summary">
+            <h3 class="font-medium text-gray-800 mb-4">12月工时总结</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">总工作天数：</span>
+                    <span class="font-medium">22天</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">总工时：</span>
+                    <span class="font-medium">180小时</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">平均每日工时：</span>
+                    <span class="font-medium">8.2小时</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">休息天数：</span>
+                    <span class="font-medium">9天</span>
+                </div>
+                <div class="border-t pt-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-800 font-medium">总佣金：</span>
+                        <span class="text-rewardRed font-bold text-xl">¥720</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入专用的JavaScript文件 -->
+    <script src="js/person-work-detail.js"></script>
+</body>
+</html> 

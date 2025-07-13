@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>确认提现信息 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        rewardRed: '#FF5B5B',
+                        rewardOrange: '#FFA046',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .amount-highlight {
+            color: #FF5B5B;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-primary">
+        <span>21:14</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="px-4 py-3 flex justify-between items-center bg-white border-b border-gray-100">
+        <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center font-medium text-gray-800">确认提现信息</div>
+        <div class="flex items-center space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50 px-4 py-6">
+        <!-- 提现详情标题 -->
+        <div class="flex items-center space-x-2 mb-6">
+            <div class="text-lg font-medium text-gray-800">📋 提现详情</div>
+        </div>
+
+        <!-- 提现详情卡片 -->
+        <div class="bg-white rounded-lg p-6 mb-6">
+            <div class="info-row">
+                <span class="info-label">提现金额</span>
+                <span class="amount-highlight" id="withdrawAmount">¥1,286.50</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">手续费</span>
+                <span class="info-value">免费</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">实际到账</span>
+                <span class="amount-highlight" id="actualAmount">¥1,286.50</span>
+            </div>
+            
+            <div class="border-t border-gray-200 my-4"></div>
+            
+            <div class="info-row">
+                <span class="info-label">提现方式</span>
+                <span class="info-value" id="withdrawMethod">🏦 银行卡提现</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">收款账户</span>
+                <span class="info-value" id="withdrawAccount">工商银行 ****1234</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">到账时间</span>
+                <span class="info-value" id="arrivalTime">1-3个工作日</span>
+            </div>
+        </div>
+
+        <!-- 重要提醒 -->
+        <div class="bg-orange-50 rounded-lg p-4 mb-6">
+            <div class="flex items-start space-x-2">
+                <div class="text-orange-500 mt-0.5">⚠️</div>
+                <div>
+                    <div class="text-orange-700 font-medium text-sm mb-2">重要提醒</div>
+                    <div class="text-orange-600 text-xs space-y-1">
+                        <div>• 请确保收款账户信息正确</div>
+                        <div>• 提现申请提交后无法撤销</div>
+                        <div>• 节假日可能影响到账时间</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="p-4 bg-white border-t border-gray-100">
+        <button class="w-full bg-primary hover:bg-purple-700 text-white font-medium py-3 rounded-lg transition-colors duration-200" onclick="submitWithdraw()">
+            确认提现
+        </button>
+    </div>
+
+    <script src="js/withdraw-confirm.js"></script>
+</body>
+</html> 

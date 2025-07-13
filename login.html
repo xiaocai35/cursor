@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录/注册 - 聚贤人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        'primary-light': '#A855F7',
+                        'primary-dark': '#6B21A8'
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'float-delayed': 'float 3s ease-in-out infinite 1.5s',
+                        'pulse-slow': 'pulse 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-gradient {
+            background: linear-gradient(-45deg, #8A33D1, #A855F7, #6B21A8, #7C3AED);
+            background-size: 400% 400%;
+            animation: backgroundShift 8s ease infinite;
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-sm mx-auto bg-white min-h-screen">
+        <!-- 顶部状态栏 -->
+        <div class="flex justify-between items-center p-4 bg-white">
+            <button onclick="goBack()" class="text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1 class="text-lg font-medium text-gray-800">登录/注册</h1>
+            <button class="text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zM12 13a1 1 0 110-2 1 1 0 010 2zM12 20a1 1 0 110-2 1 1 0 010 2z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 品牌展示区域 -->
+        <div class="relative animated-gradient px-6 py-8 rounded-b-3xl overflow-hidden shadow-2xl">
+            <!-- 背景装饰层 -->
+            <div class="absolute inset-0 overflow-hidden">
+                <!-- 动态渐变球 -->
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-white/20 to-white/5 rounded-full blur-xl animate-float"></div>
+                <div class="absolute top-1/2 -left-16 w-24 h-24 bg-gradient-to-br from-white/15 to-white/5 rounded-full blur-lg animate-float-delayed"></div>
+                
+                <!-- 玻璃效果装饰 -->
+                <div class="absolute top-8 right-8 w-16 h-16 glass-effect rounded-2xl animate-pulse-slow"></div>
+                
+                <!-- 几何图形装饰 -->
+                <div class="absolute top-4 right-4 w-20 h-20 opacity-30 animate-float">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:white;stop-opacity:0.4" />
+                                <stop offset="100%" style="stop-color:white;stop-opacity:0.1" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <polygon points="50,10 80,40 50,70 20,40" fill="url(#grad1)" stroke="white" stroke-width="1" stroke-opacity="0.4" filter="url(#glow)"/>
+                        <circle cx="50" cy="40" r="6" fill="white" opacity="0.5" filter="url(#glow)"/>
+                    </svg>
+                </div>
+                
+                <!-- 波浪装饰 -->
+                <div class="absolute bottom-0 left-0 w-full h-16 opacity-15">
+                    <svg viewBox="0 0 400 80" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:white;stop-opacity:0.3" />
+                                <stop offset="50%" style="stop-color:white;stop-opacity:0.1" />
+                                <stop offset="100%" style="stop-color:white;stop-opacity:0.3" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,40 Q100,10 200,40 T400,40 L400,80 L0,80 Z" fill="url(#waveGrad)"/>
+                        <path d="M0,50 Q100,20 200,50 T400,50 L400,80 L0,80 Z" fill="white" opacity="0.1"/>
+                    </svg>
+                </div>
+                
+                <!-- 点状装饰 -->
+                <div class="absolute top-6 left-6 w-2 h-2 bg-white rounded-full opacity-60 animate-ping"></div>
+                <div class="absolute top-12 left-12 w-1 h-1 bg-white rounded-full opacity-40 animate-pulse"></div>
+                <div class="absolute top-16 right-20 w-1.5 h-1.5 bg-white rounded-full opacity-50 animate-pulse delay-1000"></div>
+                <div class="absolute bottom-8 left-8 w-1 h-1 bg-white rounded-full opacity-30 animate-ping delay-500"></div>
+            </div>
+            
+            <!-- Logo和品牌名称 -->
+            <div class="flex items-center mb-6 relative z-10">
+                <div class="w-12 h-12 glass-effect rounded-2xl flex items-center justify-center mr-3 shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-white drop-shadow-lg">聚贤人力</h2>
+            </div>
+
+            <!-- 标语 -->
+            <h3 class="text-xl font-medium text-white mb-6 relative z-10 drop-shadow-md">线上入职享聚贤保障</h3>
+
+            <!-- 保障图标 -->
+            <div class="flex justify-between items-center text-white relative z-10">
+                <div class="flex items-center glass-effect px-3 py-2 rounded-full backdrop-blur-sm">
+                    <div class="w-5 h-5 mr-2">
+                        <svg fill="currentColor" viewBox="0 0 24 24" class="drop-shadow-sm">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-medium drop-shadow-sm">工资保障</span>
+                </div>
+                <div class="flex items-center glass-effect px-3 py-2 rounded-full backdrop-blur-sm">
+                    <div class="w-5 h-5 mr-2">
+                        <svg fill="currentColor" viewBox="0 0 24 24" class="drop-shadow-sm">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-medium drop-shadow-sm">补贴保障</span>
+                </div>
+                <div class="flex items-center glass-effect px-3 py-2 rounded-full backdrop-blur-sm">
+                    <div class="w-5 h-5 mr-2">
+                        <svg fill="currentColor" viewBox="0 0 24 24" class="drop-shadow-sm">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-medium drop-shadow-sm">安全保障</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户信息区域 -->
+        <div class="px-6 py-6">
+            <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                    <svg class="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-medium text-gray-800" id="userDisplay">点击登录</div>
+                    <div class="text-sm text-gray-500">邀请您加入聚贤人力</div>
+                </div>
+            </div>
+
+            <!-- 登录按钮组 -->
+            <div class="space-y-4">
+                <!-- 手机号快捷登录 -->
+                <button onclick="quickLogin()" class="w-full bg-primary text-white py-4 rounded-xl font-medium text-lg hover:bg-primary-dark transition-colors">
+                    手机号快捷登录
+                </button>
+
+                <!-- 微信快捷登录 -->
+                <button onclick="wechatLogin()" class="w-full bg-green-500 text-white py-4 rounded-xl font-medium text-lg hover:bg-green-600 transition-colors flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.298c-.19.635.044 1.309.6 1.723a1.044 1.044 0 0 0 1.086.017l1.73-1.055a.642.642 0 0 1 .649-.05 6.647 6.647 0 0 0 1.6.195c3.8 0 6.691-2.688 6.691-6.742C15.382 5.476 12.491 2.188 8.691 2.188z"/>
+                    </svg>
+                    微信快捷登录
+                </button>
+
+                <!-- 分割线 -->
+                <div class="flex items-center my-6">
+                    <div class="flex-1 h-px bg-gray-300"></div>
+                    <span class="px-4 text-gray-400 text-sm">或</span>
+                    <div class="flex-1 h-px bg-gray-300"></div>
+                </div>
+
+                <!-- 输入手机号登录 -->
+                <button onclick="phoneLogin()" class="w-full bg-gray-100 text-gray-700 py-4 rounded-xl font-medium text-lg hover:bg-gray-200 transition-colors">
+                    输入手机号登录
+                </button>
+            </div>
+
+            <!-- 条款同意 -->
+            <div class="flex items-center mt-6 text-sm text-gray-500">
+                <input type="checkbox" id="agree" class="mr-2 rounded border-gray-300 text-primary focus:ring-primary" checked>
+                <label for="agree" class="flex-1">
+                    我已阅读并同意 
+                    <a href="#" class="text-primary hover:underline">《用户协议》</a>
+                    和 
+                    <a href="#" class="text-primary hover:underline">《隐私保护指引》</a>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- 手机号登录弹窗 -->
+    <div id="phoneLoginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-medium">手机号登录</h3>
+                <button onclick="closePhoneModal()" class="text-gray-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">手机号</label>
+                    <input type="tel" id="phoneInput" class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入手机号">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">验证码</label>
+                    <div class="flex space-x-2">
+                        <input type="text" id="codeInput" class="flex-1 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入验证码">
+                        <button onclick="sendCode()" class="px-6 py-4 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors">
+                            发送验证码
+                        </button>
+                    </div>
+                </div>
+                
+                <button onclick="submitPhoneLogin()" class="w-full bg-primary text-white py-4 rounded-xl font-medium text-lg hover:bg-primary-dark transition-colors">
+                    登录
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html> 

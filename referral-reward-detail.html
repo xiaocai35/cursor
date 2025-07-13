@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>推荐详情 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        rewardRed: '#FF5B5B',
+                        rewardOrange: '#FFA046',
+                        statusGreen: '#4CAF50',
+                        statusBlue: '#2196F3',
+                        statusGray: '#9E9E9E',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .reward-bg-gradient {
+            background: linear-gradient(135deg, #FF5B5B 0%, #FFA046 100%);
+        }
+        
+        .reward-card {
+            border-radius: 16px;
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(255, 91, 91, 0.1);
+            overflow: hidden;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .status-pending { background-color: #FFA046; }
+        .status-working { background-color: #4CAF50; }
+        .status-resigned { background-color: #9E9E9E; }
+        .status-arrived { background-color: #2196F3; }
+        
+        .progress-bar {
+            height: 4px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF5B5B, #FFA046);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .filter-btn {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background-color: #FF5B5B;
+            color: white;
+            border-color: #FF5B5B;
+        }
+        
+        .person-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .person-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .avatar-placeholder {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .reward-amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #FF5B5B;
+        }
+        
+        .time-record {
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .expand-btn {
+            color: #FF5B5B;
+            font-size: 12px;
+            font-weight: 500;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .expand-btn:hover {
+            background-color: rgba(255, 91, 91, 0.1);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #f0f0f0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 16px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+        }
+        
+        .timeline-item.inactive::before {
+            background-color: #e0e0e0;
+        }
+        
+        .search-input {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: white;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .month-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .month-btn {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .month-btn.active {
+            background-color: #FF5B5B;
+            color: white;
+            border-color: #FF5B5B;
+        }
+        
+
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-rewardRed">
+        <span>12:00</span>
+        <div class="flex items-center space-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xs">100%</span>
+        </div>
+    </div>
+
+    <!-- 头部区域 -->
+    <div class="reward-bg-gradient">
+        <!-- 顶部导航 -->
+        <div class="px-4 py-3 flex justify-between items-center text-white">
+            <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </div>
+            <div class="text-center font-medium">推荐详情</div>
+            <div class="flex items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- 统计概览 -->
+        <div class="px-4 pb-4">
+            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-white">5</div>
+                        <div class="text-xs text-white opacity-80">推荐总数</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-white">3</div>
+                        <div class="text-xs text-white opacity-80">已入职</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-white">1</div>
+                        <div class="text-xs text-white opacity-80">已离职</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-white">¥2,400</div>
+                        <div class="text-xs text-white opacity-80">本月奖励</div>
+                    </div>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="relative">
+                    <input type="text" class="search-input" placeholder="搜索推荐人姓名或手机号">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute right-3 top-2.5 text-white opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50 px-4 py-4">
+        <!-- 筛选选项 -->
+        <div class="flex gap-2 mb-4 overflow-x-auto">
+            <button class="filter-btn active" data-status="all">全部</button>
+            <button class="filter-btn" data-status="pending">待到岗</button>
+            <button class="filter-btn" data-status="working">在职</button>
+            <button class="filter-btn" data-status="resigned">已离职</button>
+        </div>
+
+        <!-- 月份选择 -->
+        <div class="month-selector">
+            <button class="month-btn" data-month="2024-11">11月</button>
+            <button class="month-btn active" data-month="2024-12">12月</button>
+            <button class="month-btn" data-month="2025-01">1月</button>
+        </div>
+
+        <!-- 推荐人员列表 -->
+        <div class="space-y-3">
+            <!-- 推荐人员卡片 1 -->
+            <div class="person-card" data-status="working">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar-placeholder">张三</div>
+                        <div>
+                            <div class="font-medium text-gray-800">张三</div>
+                            <div class="text-xs text-gray-500">138****5678</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="status-badge status-working">在职</span>
+                        <div class="reward-amount">¥800</div>
+                    </div>
+                </div>
+                
+                <!-- 岗位和抽佣信息 -->
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>入职岗位：生产线操作工</span>
+                        <span>每小时抽佣：¥4</span>
+                    </div>
+                </div>
+                
+                <!-- 入职信息 -->
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>入职时间：2024-11-15</span>
+                        <span>工作天数：45天</span>
+                    </div>
+                </div>
+                
+                <!-- 工时记录 -->
+                <div class="time-record">
+                    <div class="flex justify-between items-center">
+                        <span>12月工时：180小时</span>
+                        <button class="expand-btn">查看详情</button>
+                    </div>
+                </div>
+                
+                <!-- 进度条 -->
+                <div class="mt-3">
+                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                        <span>入职进度</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 推荐人员卡片 2 -->
+            <div class="person-card" data-status="working">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar-placeholder">李四</div>
+                        <div>
+                            <div class="font-medium text-gray-800">李四</div>
+                            <div class="text-xs text-gray-500">139****8765</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="status-badge status-working">在职</span>
+                        <div class="reward-amount">¥900</div>
+                    </div>
+                </div>
+                
+                <!-- 岗位和抽佣信息 -->
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>入职岗位：质检员</span>
+                        <span>每小时抽佣：¥4</span>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>入职时间：2024-11-01</span>
+                        <span>工作天数：59天</span>
+                    </div>
+                </div>
+                
+                <div class="time-record">
+                    <div class="flex justify-between items-center">
+                        <span>12月工时：200小时</span>
+                        <button class="expand-btn">查看详情</button>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                        <span>入职进度</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 推荐人员卡片 3 -->
+            <div class="person-card" data-status="arrived">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar-placeholder">王五</div>
+                        <div>
+                            <div class="font-medium text-gray-800">王五</div>
+                            <div class="text-xs text-gray-500">137****4321</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="status-badge status-arrived">已到岗</span>
+                        <div class="reward-amount">¥0</div>
+                    </div>
+                </div>
+                
+                <!-- 岗位和抽佣信息 -->
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>应聘岗位：仓库管理员</span>
+                        <span>每小时抽佣：¥4</span>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>到岗时间：2024-12-20</span>
+                        <span>等待入职</span>
+                    </div>
+                </div>
+                
+                <!-- 状态时间线 -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="text-xs text-gray-600">2024-12-18 提交报名</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="text-xs text-gray-600">2024-12-19 面试通过</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="text-xs text-gray-600">2024-12-20 到岗报到</div>
+                    </div>
+                    <div class="timeline-item inactive">
+                        <div class="text-xs text-gray-400">等待正式入职</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 推荐人员卡片 4 -->
+            <div class="person-card" data-status="resigned">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar-placeholder">赵六</div>
+                        <div>
+                            <div class="font-medium text-gray-800">赵六</div>
+                            <div class="text-xs text-gray-500">135****9876</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="status-badge status-resigned">已离职</span>
+                        <div class="reward-amount">¥600</div>
+                    </div>
+                </div>
+                
+                <!-- 岗位和抽佣信息 -->
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>原岗位：包装工</span>
+                        <span>每小时抽佣：¥4</span>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>离职时间：2024-12-15</span>
+                        <span>工作天数：30天</span>
+                    </div>
+                </div>
+                
+                <div class="time-record">
+                    <div class="flex justify-between items-center">
+                        <span>12月工时：120小时（离职前）</span>
+                        <button class="expand-btn">查看详情</button>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                        <span>已获得奖励</span>
+                        <span class="text-rewardRed">¥600</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 推荐人员卡片 5 -->
+            <div class="person-card" data-status="pending">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar-placeholder">孙七</div>
+                        <div>
+                            <div class="font-medium text-gray-800">孙七</div>
+                            <div class="text-xs text-gray-500">136****6543</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="status-badge status-pending">待到岗</span>
+                        <div class="reward-amount">¥0</div>
+                    </div>
+                </div>
+                
+                <!-- 岗位和抽佣信息 -->
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>应聘岗位：机械维修工</span>
+                        <span>每小时抽佣：¥4</span>
+                    </div>
+                </div>
+                
+                <div class="text-sm text-gray-600 mb-2">
+                    <div class="flex justify-between">
+                        <span>报名时间：2024-12-22</span>
+                        <span>等待面试</span>
+                    </div>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="text-xs text-gray-600">2024-12-22 提交报名</div>
+                    </div>
+                    <div class="timeline-item inactive">
+                        <div class="text-xs text-gray-400">等待面试安排</div>
+                    </div>
+                    <div class="timeline-item inactive">
+                        <div class="text-xs text-gray-400">到岗报到</div>
+                    </div>
+                    <div class="timeline-item inactive">
+                        <div class="text-xs text-gray-400">正式入职</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 奖励统计总结 -->
+        <div class="mt-6 bg-white rounded-lg p-4">
+            <h3 class="font-medium text-gray-800 mb-3">12月奖励统计</h3>
+            <div class="space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">张三工时奖励：</span>
+                    <span class="text-rewardRed font-medium">¥720</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">李四工时奖励：</span>
+                    <span class="text-rewardRed font-medium">¥800</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">赵六工时奖励：</span>
+                    <span class="text-rewardRed font-medium">¥480</span>
+                </div>
+                <div class="border-t pt-2">
+                    <div class="flex justify-between font-medium">
+                        <span>本月总奖励：</span>
+                        <span class="text-rewardRed text-lg">¥2,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入专用的JavaScript文件 -->
+    <script src="js/referral-reward-detail.js"></script>
+</body>
+</html> 

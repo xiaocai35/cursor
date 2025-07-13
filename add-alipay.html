@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>添加支付宝 - 蓝诚人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        rewardRed: '#FF5B5B',
+                        rewardOrange: '#FFA046',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.15s ease-in-out;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #8A33D1;
+            box-shadow: 0 0 0 3px rgba(138, 51, 209, 0.1);
+        }
+
+        .input-field.error {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .alipay-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .account-type-option {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .account-type-option.selected {
+            border-color: #8A33D1;
+            background-color: #f3f4f6;
+        }
+
+        .account-type-option.selected .check-icon {
+            display: block;
+        }
+
+        .check-icon {
+            display: none;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-primary">
+        <span>21:14</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="px-4 py-3 flex justify-between items-center bg-white border-b border-gray-100">
+        <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center font-medium text-gray-800">添加支付宝</div>
+        <div class="flex items-center space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50 px-4 py-6">
+        <!-- 支付宝图标 -->
+        <div class="flex justify-center mb-6">
+            <div class="alipay-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- 提示信息 -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div class="flex items-start space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                    <div class="text-sm font-medium text-blue-800">安全提示</div>
+                    <div class="text-xs text-blue-600 mt-1">请确保支付宝账户已实名认证，且为本人账户</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 账户类型选择 -->
+        <div class="mb-6">
+            <div class="text-gray-800 font-medium mb-4">选择账户类型</div>
+            
+            <!-- 手机号 -->
+            <div class="account-type-option bg-white rounded-lg p-4 mb-3 border-2 border-gray-200 selected" data-type="phone" onclick="selectAccountType('phone')">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-800">手机号</div>
+                            <div class="text-sm text-gray-500">使用手机号绑定支付宝</div>
+                        </div>
+                    </div>
+                    <div class="check-icon text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 邮箱 -->
+            <div class="account-type-option bg-white rounded-lg p-4 mb-3 border-2 border-gray-200" data-type="email" onclick="selectAccountType('email')">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-800">邮箱</div>
+                            <div class="text-sm text-gray-500">使用邮箱绑定支付宝</div>
+                        </div>
+                    </div>
+                    <div class="check-icon text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表单 -->
+        <form id="alipayForm" class="space-y-4">
+            <!-- 账户名称 -->
+            <div class="input-group">
+                <label class="input-label">姓名</label>
+                <input type="text" id="realName" class="input-field" placeholder="请输入真实姓名" maxlength="20">
+                <div id="realNameError" class="error-message" style="display: none;"></div>
+            </div>
+
+            <!-- 账户信息 -->
+            <div class="input-group">
+                <label class="input-label" id="accountLabel">支付宝账户（手机号）</label>
+                <input type="text" id="alipayAccount" class="input-field" placeholder="请输入支付宝绑定的手机号" maxlength="20">
+                <div id="alipayAccountError" class="error-message" style="display: none;"></div>
+            </div>
+
+            <!-- 身份证号 -->
+            <div class="input-group">
+                <label class="input-label">身份证号</label>
+                <input type="text" id="idNumber" class="input-field" placeholder="请输入身份证号" maxlength="18">
+                <div id="idNumberError" class="error-message" style="display: none;"></div>
+            </div>
+        </form>
+
+        <!-- 服务协议 -->
+        <div class="mt-6 p-4 bg-white rounded-lg">
+            <label class="flex items-start space-x-2">
+                <input type="checkbox" id="agreeTerms" class="mt-1 h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary">
+                <span class="text-sm text-gray-600">
+                    我已阅读并同意
+                    <a href="#" class="text-primary underline">《支付宝绑定服务协议》</a>
+                    和
+                    <a href="#" class="text-primary underline">《隐私政策》</a>
+                </span>
+            </label>
+        </div>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="p-4 bg-white border-t border-gray-100">
+        <button id="submitBtn" class="w-full bg-gray-400 text-white font-medium py-3 rounded-lg transition-colors duration-200 cursor-not-allowed" disabled onclick="submitAlipay()">
+            提交
+        </button>
+    </div>
+
+    <script src="js/add-alipay.js"></script>
+</body>
+</html> 

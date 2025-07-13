@@ -59,11 +59,11 @@ function initServiceItems() {
                 case '我的薪资':
                     navigateTo('salary.html');
                     break;
-                case '我的税支':
-                    navigateTo('tax-info.html');
+                case '推荐奖励':
+                    navigateTo('referral-reward.html');
                     break;
-                case '电子合同':
-                    navigateTo('e-contracts.html');
+                case '我的预支':
+                    navigateTo('advance-salary.html');
                     break;
                 case '我的钱包':
                     navigateTo('wallet.html');
@@ -113,13 +113,34 @@ function initBottomNavigation() {
 function navigateTo(url) {
     // 如果页面已存在，则直接跳转
     // 否则显示开发中提示
-    const existingPages = ['index.html', 'job-detail.html', 'profile.html'];
+    const existingPages = ['index.html', 'job-detail.html', 'profile.html', 'referral-reward.html', 'advance-salary.html'];
     
     if (existingPages.includes(url)) {
         window.location.href = url;
     } else {
         showToast('该页面正在开发中');
     }
+}
+
+// 跳转到推荐奖励页面
+function goToReferralReward() {
+    window.location.href = 'referral-reward.html';
+}
+
+// 跳转到收益详情页面
+function goToEarningsDetail() {
+    window.location.href = 'withdraw-records.html';
+}
+
+// 跳转到提现页面
+function goToWithdraw() {
+    // 跳转到提现流程页面
+    window.location.href = 'withdraw-amount.html?amount=1286.50';
+}
+
+// 跳转到我的预支页面
+function goToAdvanceSalary() {
+    window.location.href = 'advance-salary.html';
 }
 
 // 显示提示消息

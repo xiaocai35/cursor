@@ -143,6 +143,42 @@
 
     <!-- 主内容 -->
     <div class="flex-1 overflow-y-auto mt-28 pt-4 bg-gray-50 scrollbar-hide">
+        <!-- 我的收益 -->
+        <div class="mx-4 bg-white rounded-lg mb-6 p-5 custom-shadow fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-gray-800 font-medium flex items-center">
+                    <span class="mr-2">💰</span>
+                    我的收益
+                </h3>
+                <span class="text-xs text-gray-500 cursor-pointer" onclick="goToEarningsDetail()">更多 ></span>
+            </div>
+            
+            <!-- 收益展示区域 -->
+            <div class="relative overflow-hidden rounded-lg" style="background: linear-gradient(135deg, #FF5B5B 0%, #FFA046 100%);">
+                <div class="px-6 py-8 text-center text-white">
+                    <!-- 可提现金额 -->
+                    <div class="mb-2">
+                        <div class="text-sm opacity-90">可提现金额</div>
+                        <div class="text-3xl font-bold mt-1">¥1,286.50</div>
+                    </div>
+                    
+                    <!-- 提现按钮 -->
+                    <div class="mt-6">
+                        <button class="bg-white text-orange-500 font-medium py-2 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-200" onclick="goToWithdraw()">
+                            立即提现
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 装饰性背景元素 -->
+                <div class="absolute top-0 right-0 w-20 h-20 opacity-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                        <path d="M12 2C10.9 2 10 2.9 10 4V20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20V4C14 2.9 13.1 2 12 2ZM7.4 4C6.7 4 6.2 4.6 6.3 5.3C6.4 6.1 6.5 6.9 6.7 7.7C7 9 7.5 10.3 8.1 11.4C8.5 12.1 9.4 12.1 9.8 11.4C10.4 10.3 10.9 9 11.1 7.7C11.3 6.9 11.4 6.1 11.5 5.3C11.5 4.6 11 4 10.3 4H7.4ZM16.6 4C15.9 4 15.4 4.6 15.5 5.3C15.6 6.1 15.7 6.9 15.9 7.7C16.2 9 16.7 10.3 17.3 11.4C17.7 12.1 18.6 12.1 19 11.4C19.6 10.3 20.1 9 20.3 7.7C20.5 6.9 20.6 6.1 20.7 5.3C20.8 4.6 20.3 4 19.6 4H16.6Z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
         <!-- 我的服务 -->
         <div class="mx-4 bg-white rounded-lg mb-6 p-5 custom-shadow fade-in">
             <h3 class="text-gray-800 font-medium mb-4">我的服务</h3>
@@ -181,21 +217,21 @@
                     <span class="text-xs text-gray-600">我的薪资</span>
                 </div>
                 
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center cursor-pointer" onclick="goToReferralReward()">
                     <div class="service-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </div>
-                    <span class="text-xs text-gray-600">我的税支</span>
+                    <span class="text-xs text-gray-600">推荐奖励</span>
                 </div>
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center cursor-pointer" onclick="goToAdvanceSalary()">
                     <div class="service-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                     </div>
-                    <span class="text-xs text-gray-600">电子合同</span>
+                    <span class="text-xs text-gray-600">我的预支</span>
                 </div>
                 <div class="flex flex-col items-center">
                     <div class="service-icon">

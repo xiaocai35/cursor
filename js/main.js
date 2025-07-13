@@ -139,4 +139,9 @@ function showToast(message) {
             document.body.removeChild(toast);
         }, 500);
     }, 2000);
-} 
+}
+
+// 跳转到登录页面
+function goToLogin() {
+    window.location.href = 'login.html';
+}
