@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>投诉建议 - 聚贤人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        feedbackOrange: '#FF6B35',
+                    }
+                }
+            },
+            safelist: [
+                'bg-primary',
+                'bg-feedbackOrange',
+                'border-primary',
+                'text-primary'
+            ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #FF6B35;
+            color: #FF6B35;
+        }
+
+        .category-tag {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .category-tag.selected {
+            background-color: #FF6B35;
+            color: white;
+            border-color: #FF6B35;
+        }
+
+        .feedback-type-radio {
+            accent-color: #FF6B35;
+        }
+
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            transition: all 0.2s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #FF6B35;
+            background-color: #fff5f5;
+        }
+
+        .upload-preview {
+            position: relative;
+            display: inline-block;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ef4444;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .char-counter {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .submit-btn {
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-primary">
+        <span>21:30</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="px-4 py-3 flex justify-between items-center bg-white border-b border-gray-100">
+        <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center font-medium text-gray-800">投诉建议</div>
+        <div class="flex items-center space-x-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 标签页导航 -->
+    <div class="bg-white border-b border-gray-100">
+        <div class="flex">
+            <button class="flex-1 py-3 text-center font-medium tab-active" id="feedbackTab" onclick="switchTab('feedback')">
+                投诉建议
+            </button>
+            <button class="flex-1 py-3 text-center font-medium text-gray-500" id="recordsTab" onclick="switchTab('records')">
+                反馈记录
+            </button>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 overflow-y-auto bg-gray-50">
+        <!-- 投诉建议内容 -->
+        <div id="feedbackContent" class="p-4 space-y-6">
+            <!-- 安全提示 -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                <p class="text-xs text-yellow-800">
+                    为保障您的账号安全，请勿在此提交个人敏感信息，如身份证、账号密码等
+                </p>
+            </div>
+
+            <!-- 反馈类型选择 -->
+            <div class="bg-white rounded-lg p-4">
+                <div class="flex items-center mb-4">
+                    <span class="text-red-500 mr-1">*</span>
+                    <span class="font-medium text-gray-800">反馈类型</span>
+                </div>
+                <div class="flex space-x-6">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="feedbackType" value="complaint" class="feedback-type-radio mr-2" checked onchange="updateFeedbackType()">
+                        <span class="text-gray-700">投诉</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="feedbackType" value="suggestion" class="feedback-type-radio mr-2" onchange="updateFeedbackType()">
+                        <span class="text-gray-700">建议</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 问题类型选择 -->
+            <div class="bg-white rounded-lg p-4">
+                <div class="flex items-center mb-4">
+                    <span class="text-red-500 mr-1">*</span>
+                    <span class="font-medium text-gray-800">问题类型</span>
+                </div>
+                <div class="grid grid-cols-3 gap-3" id="categoryGrid">
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '工资问题')">工资问题</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '借支问题')">借支问题</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '驻厂服务')">驻厂服务</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '宿舍环境')">宿舍环境</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '宿舍制度')">宿舍制度</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '宿管服务')">宿管服务</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '住宿费用')">住宿费用</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '招聘服务')">招聘服务</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '报名管理')">报名管理</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '司机服务')">司机服务</button>
+                    <button class="category-tag border border-gray-300 rounded-lg py-2 px-3 text-sm text-gray-700" onclick="selectCategory(this, '其它')">其它</button>
+                </div>
+            </div>
+
+            <!-- 问题描述 -->
+            <div class="bg-white rounded-lg p-4">
+                <div class="flex items-center mb-4">
+                    <span class="text-red-500 mr-1">*</span>
+                    <span class="font-medium text-gray-800">问题描述</span>
+                </div>
+                <div class="relative">
+                    <textarea 
+                        id="descriptionText"
+                        class="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:border-feedbackOrange"
+                        placeholder="请在此处输入您遇到的问题（500字以内）"
+                        maxlength="500"
+                        oninput="updateCharCount()">
+                    </textarea>
+                    <div class="char-counter absolute bottom-2 right-3">
+                        <span id="charCount">0</span>/500
+                    </div>
+                </div>
+            </div>
+
+            <!-- 上传凭证 -->
+            <div class="bg-white rounded-lg p-4">
+                <div class="flex items-center mb-4">
+                    <span class="font-medium text-gray-800">上传凭证</span>
+                    <span class="text-xs text-gray-500 ml-2">（不超过3张图片）</span>
+                </div>
+                
+                <!-- 图片预览区域 -->
+                <div class="flex flex-wrap gap-3 mb-4" id="imagePreview">
+                    <!-- 已上传的图片将显示在这里 -->
+                </div>
+
+                <!-- 上传区域 -->
+                <div class="upload-area rounded-lg p-6 text-center" id="uploadArea" onclick="selectImages()">
+                    <div class="flex flex-col items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span class="text-sm text-gray-500">点击上传图片</span>
+                    </div>
+                </div>
+                
+                <!-- 隐藏的文件输入框 -->
+                <input type="file" id="imageInput" accept="image/*" multiple style="display: none;" onchange="handleImageUpload(event)">
+            </div>
+
+            <!-- 提交按钮 -->
+            <div class="px-4 pb-6">
+                <button class="submit-btn w-full bg-feedbackOrange text-white py-3 rounded-lg font-medium" onclick="submitFeedback()" id="submitBtn" disabled>
+                    提交反馈
+                </button>
+            </div>
+        </div>
+
+        <!-- 反馈记录内容（初始隐藏） -->
+        <div id="recordsContent" class="p-4 space-y-4" style="display: none;">
+            <!-- 反馈记录列表将由JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <!-- 引入JavaScript -->
+    <script src="js/feedback.js"></script>
+</body>
+</html> 

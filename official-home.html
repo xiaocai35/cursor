@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聚贤人力 - 专业的人力资源服务平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#6B21A8',
+                        accent: '#EC4899'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #8A33D1, #EC4899);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-2xl font-bold text-primary">聚贤人力</div>
+                
+                <!-- PC导航菜单 -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="text-gray-700 hover:text-primary transition-colors">首页</a>
+                    <a href="#services" class="text-gray-700 hover:text-primary transition-colors">核心优势</a>
+                    <a href="#qrcode" class="text-gray-700 hover:text-primary transition-colors">小程序</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">联系我们</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-2 space-y-1">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-primary">首页</a>
+                <a href="#services" class="block py-2 text-gray-700 hover:text-primary">核心优势</a>
+                <a href="#qrcode" class="block py-2 text-gray-700 hover:text-primary">小程序</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-primary">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center justify-center text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                聚贤人力
+            </h1>
+            <p class="text-xl md:text-2xl mb-4 font-light">
+                专注劳务派遣 20 年
+            </p>
+            <p class="text-lg md:text-xl mb-8 text-white/90">
+                泉州地区人力资源服务领军者
+            </p>
+            <p class="text-lg mb-10 max-w-3xl mx-auto leading-relaxed">
+                聚贤人力深耕人力资源服务领域二十载，是福建省泉州地区规模最大、经验最丰富的专业劳务派遣服务商。我们致力于为工厂企业提供高效、稳定、合规的人力资源解决方案，助力企业降本增效，专注核心业务发展。
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                    立即咨询
+                </button>
+                <button class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors">
+                    了解更多
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 数据统计 -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-3xl md:text-4xl font-bold text-primary mb-2">20年</div>
+                    <div class="text-gray-600">专业经验</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-3xl md:text-4xl font-bold text-primary mb-2">30+</div>
+                    <div class="text-gray-600">合作工厂</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-3xl md:text-4xl font-bold text-primary mb-2">5000+</div>
+                    <div class="text-gray-600">人才储备</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-3xl md:text-4xl font-bold text-primary mb-2">区域</div>
+                    <div class="text-gray-600">龙头地位</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心优势 -->
+    <section id="services" class="py-16 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">我们的核心优势</h2>
+                <p class="text-gray-600">二十年专业积淀，铸就泉州地区劳务派遣领导品牌</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 一手工厂资源 -->
+                <div class="feature-card bg-white rounded-xl p-8 shadow-sm hover:shadow-lg">
+                    <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">一手工厂资源，合作网络深厚</h3>
+                    <p class="text-gray-600 leading-relaxed">我们与泉州及周边地区30多家优质工厂建立了长期、稳固的战略合作关系，拥有丰富的一手用工需求资源，能精准匹配各类岗位需求。</p>
+                </div>
+
+                <!-- 庞大人才蓄水池 -->
+                <div class="feature-card bg-white rounded-xl p-8 shadow-sm hover:shadow-lg">
+                    <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">庞大人才蓄水池，输送能力强劲</h3>
+                    <p class="text-gray-600 leading-relaxed">凭借20年的行业积淀，我们建立了超过5000名活跃的劳务派遣人员储备库，并拥有强大的自有招聘渠道，确保能快速响应客户需求，持续、稳定地输送符合要求的劳动力。</p>
+                </div>
+
+                <!-- 驻场精细化管理 -->
+                <div class="feature-card bg-white rounded-xl p-8 shadow-sm hover:shadow-lg">
+                    <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">驻场精细化管理，服务无缝对接</h3>
+                    <p class="text-gray-600 leading-relaxed">我们在合作的每家工厂均配备专业的驻场管理人员，实现全流程、精细化管理。从人员招聘、入职培训、在岗管理到考勤薪酬、关系协调、问题处理，我们提供贴身式服务，确保派遣员工稳定高效工作，最大程度减轻工厂管理负担。</p>
+                </div>
+
+                <!-- 区域龙头地位 -->
+                <div class="feature-card bg-white rounded-xl p-8 shadow-sm hover:shadow-lg">
+                    <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">区域龙头地位，经验积淀深厚</h3>
+                    <p class="text-gray-600 leading-relaxed">作为泉州地区最大的劳务派遣公司，我们拥有20年的行业运营经验，深谙本地劳动力市场特点和用工政策法规，能为客户提供最符合本地实际、风险最低的用工方案。</p>
+                </div>
+            </div>
+
+            <!-- 专业合规保障 -->
+            <div class="mt-8">
+                <div class="feature-card bg-white rounded-xl p-8 shadow-sm hover:shadow-lg max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">专业合规保障，用工风险可控</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-3xl mx-auto">我们严格遵守国家及地方劳动法律法规，所有派遣流程规范透明，为合作工厂提供完善的用工风险规避方案，保障用工的合法性与安全性。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务价值 -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">我们为工厂客户提供的价值</h2>
+                <p class="text-gray-600">专业服务，助力企业高效发展</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 快速解决用工缺口 -->
+                <div class="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/10">
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">快速解决用工缺口</h3>
+                    <p class="text-gray-600 text-sm">依托庞大人才库和高效招聘，迅速满足工厂季节性、临时性或长期性用工需求</p>
+                </div>
+
+                <!-- 显著降低管理成本 -->
+                <div class="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/10">
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">显著降低管理成本</h3>
+                    <p class="text-gray-600 text-sm">将繁琐的招聘、入职、社保、薪酬、日常管理等事务性工作外包，让工厂HR部门聚焦核心战略</p>
+                </div>
+
+                <!-- 提升用工稳定性 -->
+                <div class="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/10">
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">提升用工稳定性</h3>
+                    <p class="text-gray-600 text-sm">专业的驻场管理和员工关怀，有效降低流失率，保障生产线稳定运行</p>
+                </div>
+
+                <!-- 规避用工风险 -->
+                <div class="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/10">
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">规避用工风险</h3>
+                    <p class="text-gray-600 text-sm">专业处理劳动关系、社保缴纳、工伤处理等事宜，最大程度降低企业法律风险</p>
+                </div>
+
+                <!-- 灵活应对生产波动 -->
+                <div class="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/10 md:col-span-2 lg:col-span-1">
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">灵活应对生产波动</h3>
+                    <p class="text-gray-600 text-sm">根据订单淡旺季灵活调整用工人数，实现人力资源的最优配置</p>
+                </div>
+            </div>
+
+            <!-- 选择聚贤人力的理由 -->
+            <div class="mt-16 bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 text-white text-center">
+                <h3 class="text-2xl md:text-3xl font-bold mb-6">选择聚贤人力，就是选择：</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-sm md:text-base">泉州地区最可靠的劳务合作伙伴</span>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-sm md:text-base">20年专业经验与口碑保障</span>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-sm md:text-base">5000+人才储备的快速响应能力</span>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-sm md:text-base">驻场管理带来的省心与高效</span>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2 md:col-span-2 lg:col-span-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-sm md:text-base">合规安全的一站式用工解决方案</span>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <p class="text-lg font-medium mb-4">让我们成为您值得信赖的人力资源后盾！</p>
+                    <p class="text-white/90">无论您面临何种用工挑战，我们都将竭诚为您提供最适合的劳务派遣服务。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 小程序二维码 -->
+    <section id="qrcode" class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">扫码体验小程序</h2>
+                <p class="text-gray-600">随时随地找工作，更便捷的求职体验</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-12">
+                <!-- 二维码区域 -->
+                <div class="text-center">
+                    <div class="bg-gray-100 w-48 h-48 mx-auto rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+                        <!-- 这里放置实际的小程序二维码图片 -->
+                        <div class="text-center">
+                            <svg class="w-24 h-24 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
+                            </svg>
+                            <div class="text-sm text-gray-500">小程序二维码</div>
+                        </div>
+                    </div>
+                    <p class="text-lg font-semibold text-gray-800 mb-2">聚贤人力小程序</p>
+                    <p class="text-gray-600 text-sm">微信扫码即可使用</p>
+                </div>
+                
+                <!-- 功能介绍 -->
+                <div class="max-w-md">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">小程序功能特色</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">便捷找工作</h4>
+                                <p class="text-gray-600 text-sm">随时随地浏览最新职位信息</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">在线报名</h4>
+                                <p class="text-gray-600 text-sm">一键报名心仪职位，快速响应</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">进度跟踪</h4>
+                                <p class="text-gray-600 text-sm">实时查看应聘进度和状态</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">个人中心</h4>
+                                <p class="text-gray-600 text-sm">管理个人信息和工作记录</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-16 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">联系我们</h2>
+                <p class="text-gray-600">专业团队随时为您提供咨询服务</p>
+            </div>
+            
+            <!-- 联系信息 -->
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">办公地址</h3>
+                        <p class="text-gray-600 text-sm">福建省泉州市xxx路xxx号xxx大厦xx层</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">联系电话</h3>
+                        <p class="text-gray-600 text-sm">400-123-4567</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">邮箱地址</h3>
+                        <p class="text-gray-600 text-sm">contact@juxianhr.com</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">工作时间</h3>
+                        <p class="text-gray-600 text-sm">周一至周五 9:00-18:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 行动呼吁 -->
+    <section class="py-16 bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">立即联系我们</h2>
+            <p class="text-xl mb-8 text-white/90">开启高效、省心的人力资源合作！</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="tel:400-123-4567" class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    立即拨打 400-123-4567
+                </a>
+                <a href="#contact" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors inline-flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    在线咨询
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">聚贤人力</h3>
+                    <p class="text-gray-400 text-sm">专业的人力资源服务平台，致力于为企业和个人提供最优质的服务体验。</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">核心服务</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>劳务派遣服务</li>
+                        <li>驻场管理服务</li>
+                        <li>人才输送服务</li>
+                        <li>用工风险管控</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">联系方式</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>电话：400-123-4567</li>
+                        <li>邮箱：contact@juxianhr.com</li>
+                        <li>地址：福建省泉州市xxx路xxx号</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
+                <p>&copy; 2024 聚贤人力. 版权所有.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // 关闭移动端菜单
+                    if (mobileMenu) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+                });
+        
+        // 导航栏滚动效果
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html> 

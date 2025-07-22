@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择集合门店 - 聚贤人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .primary-gradient {
+            background: linear-gradient(135deg, #8A33D1, #532A8F);
+        }
+
+        .primary-bg-light {
+            background-color: rgba(138, 51, 209, 0.1);
+        }
+
+        .primary {
+            color: #8A33D1;
+        }
+
+        .station-item {
+            background: white;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .station-item:hover {
+            background-color: #fafafa;
+        }
+
+        .station-item:last-child {
+            border-bottom: none;
+        }
+
+        .radio-button {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .radio-button.selected {
+            border-color: #8A33D1;
+        }
+
+        .radio-button.selected::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #8A33D1;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .distance-badge {
+            background-color: #f5f5f5;
+            color: #666;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .station-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .station-address {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white primary-gradient">
+        <span>12:00</span>
+        <div class="flex items-center space-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xs">100%</span>
+        </div>
+    </div>
+
+    <!-- 头部导航 -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="px-4 py-3 flex items-center">
+            <button onclick="window.history.back();" class="flex items-center mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <h1 class="text-lg font-medium text-gray-800 flex-1">选择集合门店</h1>
+            <button class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 提示信息 -->
+    <div class="bg-blue-50 px-4 py-3">
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm text-blue-700">请选择离您最近的门店，我们将安排专车接送</span>
+        </div>
+    </div>
+
+    <!-- 站点列表 -->
+    <div class="flex-1 overflow-y-auto scrollbar-hide bg-white">
+        <!-- 华辉人力-镇雄站 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-镇雄门店', '云南省昭通市镇雄县南台街道办事处', '3.01')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-镇雄门店</div>
+                    <div class="station-address">云南省昭通市镇雄县南台街道办事处南大街建设银行旁</div>
+                </div>
+                <div class="distance-badge">3.01千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-绿地门店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-绿地门店', '云南省昭通市镇雄县绿地商业街', '3.89')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-绿地门店</div>
+                    <div class="station-address">云南省昭通市镇雄县绿地商业街华辉人力招聘门店</div>
+                </div>
+                <div class="distance-badge">3.89千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-时代之光店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-时代之光店', '云南省昭通市镇雄县时代商业广场', '3.89')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-时代之光店</div>
+                    <div class="station-address">云南省昭通市镇雄县时代商业广场华辉招聘门店</div>
+                </div>
+                <div class="distance-badge">3.89千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-东祥府店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-东祥府店', '云南省昭通市镇雄县东祥府商业街', '4.04')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-东祥府店</div>
+                    <div class="station-address">云南省昭通市镇雄县东祥府商业街华辉人力招聘门店</div>
+                </div>
+                <div class="distance-badge">4.04千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-李祖广场店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-李祖广场店', '云南省昭通市镇雄县李祖广场', '4.76')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-李祖广场店</div>
+                    <div class="station-address">云南省昭通市镇雄县李祖广场华辉招聘服务中心</div>
+                </div>
+                <div class="distance-badge">4.76千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-铜城路店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-铜城路店', '云南省昭通市镇雄县铜城路商业街', '6.05')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-铜城路店</div>
+                    <div class="station-address">云南省昭通市镇雄县铜城路商业街华辉人力服务中心</div>
+                </div>
+                <div class="distance-badge">6.05千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-天香苑店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-天香苑店', '云南省昭通市镇雄县天香苑小区', '6.38')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-天香苑店</div>
+                    <div class="station-address">云南省昭通市镇雄县天香苑小区华辉人力招聘门店</div>
+                </div>
+                <div class="distance-badge">6.38千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-金紫路店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-金紫路店', '云南省昭通市镇雄县金紫路商业街', '6.64')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-金紫路店</div>
+                    <div class="station-address">云南省昭通市镇雄县金紫路商业街华辉人力服务中心</div>
+                </div>
+                <div class="distance-badge">6.64千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-宝利丰店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-宝利丰店', '云南省昭通市镇雄县宝利丰商业广场', '6.69')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-宝利丰店</div>
+                    <div class="station-address">云南省昭通市镇雄县宝利丰商业广场华辉招聘服务中心</div>
+                </div>
+                <div class="distance-badge">6.69千米</div>
+            </div>
+        </div>
+
+        <!-- 华辉人力-宁国路店 -->
+        <div class="station-item" onclick="selectStation(this, '华辉人力-宁国路店', '云南省昭通市镇雄县宁国路商业街', '6.81')">
+            <div class="flex items-center">
+                <div class="radio-button mr-3"></div>
+                <div class="flex-1">
+                    <div class="station-name">华辉人力-宁国路店</div>
+                    <div class="station-address">云南省昭通市镇雄县宁国路商业街华辉人力招聘门店</div>
+                </div>
+                <div class="distance-badge">6.81千米</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部确认按钮 -->
+    <div class="p-4 bg-white border-t border-gray-200">
+        <button id="confirmBtn" disabled class="w-full primary-gradient text-white py-3 rounded-full font-medium disabled:opacity-50 disabled:cursor-not-allowed" onclick="confirmSelection()">
+            确认选择
+        </button>
+    </div>
+
+    <!-- 引入JavaScript -->
+    <script src="js/station-list.js"></script>
+</body>
+</html> 

@@ -113,7 +113,7 @@ function initBottomNavigation() {
 function navigateTo(url) {
     // 如果页面已存在，则直接跳转
     // 否则显示开发中提示
-    const existingPages = ['index.html', 'job-detail.html', 'profile.html', 'referral-reward.html', 'advance-salary.html'];
+    const existingPages = ['index.html', 'job-detail.html', 'profile.html', 'referral-reward.html', 'advance-salary.html', 'salary.html', 'feedback.html', 'about.html', 'search-results.html', 'messages.html', 'settings.html'];
     
     if (existingPages.includes(url)) {
         window.location.href = url;

@@ -80,31 +80,50 @@ function initSearch() {
         // 可以在这里实现实时搜索功能
         console.log(`搜索: ${this.value}`);
     });
+    
+    // 添加回车搜索功能
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch(this.value.trim());
+        }
+    });
+    
+    // 点击搜索框也跳转到搜索页面
+    searchInput.addEventListener('click', function() {
+        if (this.value.trim()) {
+            performSearch(this.value.trim());
+        } else {
+            // 没有输入内容时，跳转到空搜索页面
+            window.location.href = 'search-results.html';
+        }
+    });
+}
+
+// 执行搜索
+function performSearch(keyword) {
+    if (keyword) {
+        window.location.href = `search-results.html?q=${encodeURIComponent(keyword)}`;
+    } else {
+        window.location.href = 'search-results.html';
+    }
 }
 
 // 初始化筛选功能
 function initFilter() {
-    const filterButton = document.querySelector('span:contains("筛选")');
     const locationTags = document.querySelectorAll('.text-gray-700.px-2.py-1.bg-gray-100.rounded-full');
-    
-    // 为筛选按钮添加点击事件
-    if (filterButton) {
-        filterButton.addEventListener('click', function() {
-            console.log('打开筛选选项');
-            // 这里可以弹出筛选弹窗
-        });
-    }
     
     // 为地区标签添加点击事件
     locationTags.forEach(tag => {
         tag.addEventListener('click', function() {
-            // 选中当前标签，取消其他标签
-            locationTags.forEach(t => t.classList.remove('bg-primary', 'text-white'));
-            this.classList.add('bg-primary', 'text-white');
-            
-            // 根据地区筛选职位
             const location = this.textContent.trim();
-            console.log(`按地区筛选: ${location}`);
+            if (location && location !== '筛选') {
+                // 跳转到搜索结果页面，并传递地区参数
+                window.location.href = `search-results.html?location=${encodeURIComponent(location)}`;
+            } else if (location === '筛选') {
+                // 如果是筛选按钮，跳转到搜索页面
+                window.location.href = 'search-results.html';
+            }
+            console.log(`筛选地区: ${location}`);
         });
     });
 }
