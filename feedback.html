@@ -105,6 +105,17 @@
             opacity: 0.6;
             cursor: not-allowed;
         }
+
+        /* 隐藏滚动条但保持滚动功能 */
+        .scrollable-content {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
@@ -147,9 +158,9 @@
     </div>
 
     <!-- 主内容区 -->
-    <div class="flex-1 overflow-y-auto bg-gray-50">
+    <div class="flex-1 bg-gray-50 scrollable-content">
         <!-- 投诉建议内容 -->
-        <div id="feedbackContent" class="p-4 space-y-6">
+        <div id="feedbackContent" class="p-4 space-y-4">
             <!-- 安全提示 -->
             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                 <p class="text-xs text-yellow-800">
@@ -251,7 +262,7 @@
         </div>
 
         <!-- 反馈记录内容（初始隐藏） -->
-        <div id="recordsContent" class="p-4 space-y-4" style="display: none;">
+        <div id="recordsContent" class="p-4 space-y-4 scrollable-content" style="display: none;">
             <!-- 反馈记录列表将由JavaScript动态生成 -->
         </div>
     </div>

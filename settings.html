@@ -148,6 +148,17 @@
         .modal-overlay {
             backdrop-filter: blur(4px);
         }
+
+        /* 隐藏滚动条但保持滚动功能 */
+        .scrollable-content {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
@@ -174,7 +185,7 @@
     </div>
 
     <!-- 主内容区 -->
-    <div class="flex-1 overflow-y-auto bg-gray-50">
+    <div class="flex-1 scrollable-content bg-gray-50">
         <!-- 个人信息设置 -->
         <div class="bg-white mt-4 mx-4 rounded-lg fade-in">
             <div class="p-4 border-b border-gray-100">

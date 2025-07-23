@@ -157,6 +157,17 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+
+        /* 隐藏滚动条但保持滚动功能 */
+        .scrollable-content {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
@@ -210,7 +221,7 @@
     </div>
 
     <!-- 消息列表 -->
-    <div class="flex-1 overflow-y-auto bg-gray-50">
+    <div class="flex-1 scrollable-content bg-gray-50">
         <div id="messageList" class="py-2">
             <!-- 消息列表将由JavaScript动态生成 -->
         </div>
@@ -242,7 +253,7 @@
 
     <!-- 消息详情模态框 -->
     <div id="messageModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-lg max-h-96 overflow-y-auto">
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-lg max-h-96 scrollable-content">
             <div class="p-4 border-b border-gray-200 flex justify-between items-center">
                 <h3 class="font-medium text-gray-800" id="modalTitle">消息详情</h3>
                 <button onclick="hideMessageModal()" class="text-gray-400">
