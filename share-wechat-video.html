@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>分享到视频号 - 聚贤人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        wechatGreen: '#07C160',
+                        wechatBlue: '#1485EE',
+                    }
+                }
+            },
+            safelist: [
+                'bg-primary',
+                'text-primary',
+                'border-primary',
+                'bg-wechatGreen',
+                'text-wechatGreen',
+                'bg-wechatBlue',
+                'text-wechatBlue'
+            ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .wechat-gradient {
+            background: linear-gradient(135deg, #07C160 0%, #1485EE 100%);
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .regenerate-btn {
+            background: linear-gradient(135deg, #8A33D1 0%, #9B4EE3 100%);
+            transition: all 0.2s ease;
+        }
+
+        .regenerate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(138, 51, 209, 0.3);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #07C160 0%, #1485EE 100%);
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(7, 193, 96, 0.3);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #1485EE 0%, #5AB9FF 100%);
+            transition: all 0.2s ease;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(20, 133, 238, 0.3);
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, #F0F8FF 0%, #E6F3FF 100%);
+            border: 2px dashed #1485EE;
+            border-radius: 12px;
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            border-color: #07C160;
+            background: linear-gradient(135deg, #F0FFF4 0%, #E6FFE6 100%);
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 10;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(7, 193, 96, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(7, 193, 96, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-info {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            color: #1485EE;
+            z-index: 10;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .generating {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 隐藏滚动条但保持滚动功能 */
+        .scrollable-content {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 3px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #07C160;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .wechat-style {
+            background: linear-gradient(135deg, #F0F8FF 0%, #E6F3FF 100%);
+            border-left: 4px solid #07C160;
+        }
+
+        .professional-text {
+            line-height: 1.8;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-wechatGreen">
+        <span>21:30</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="px-4 py-3 flex justify-between items-center bg-white border-b border-gray-100">
+        <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center font-medium text-gray-800">分享到视频号</div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-wechatBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 scrollable-content bg-gray-50">
+        <!-- 视频号标题区域 -->
+        <div class="content-card fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-800 flex items-center">
+                    <span class="mr-2">📺</span>
+                    视频号标题
+                </h3>
+                <button id="regenerateTitleBtn" onclick="regenerateTitle()" class="regenerate-btn text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    重新生成
+                </button>
+            </div>
+            
+            <div id="titleArea" class="wechat-style p-4 rounded-lg">
+                <div class="text-base font-medium text-gray-800">
+                    🏭 珠海高薪工厂招聘：月薪过万，五险一金包住宿，无经验可培训（50个名额）
+                </div>
+            </div>
+        </div>
+
+        <!-- 视频号描述区域 -->
+        <div class="content-card fade-in" style="animation-delay: 0.1s">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-800 flex items-center">
+                    <span class="mr-2">📄</span>
+                    视频号描述
+                </h3>
+                <button id="regenerateContentBtn" onclick="regenerateContent()" class="regenerate-btn text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    重新生成
+                </button>
+            </div>
+            
+            <div id="contentArea" class="bg-gray-50 p-4 rounded-lg border border-gray-200 min-h-[400px]">
+                <div class="text-sm professional-text text-gray-700">
+                    🔍 【招聘详情】<br><br>
+                    
+                    📍 工作地点：广东省珠海市<br>
+                    🏢 招聘企业：珠海伟创力电子制造有限公司<br>
+                    👷 招聘岗位：生产操作员<br>
+                    💰 薪资待遇：22元/小时（月薪8000-12000元）<br>
+                    ⏰ 工作时间：白班制，8小时工作<br>
+                    🎯 招聘人数：50人<br>
+                    📅 入职时间：随时可入职<br><br>
+                    
+                    👤 【岗位要求】<br>
+                    • 年龄18-45岁，男女不限<br>
+                    • 身体健康，无传染性疾病<br>
+                    • 能够适应工厂工作环境<br>
+                    • 工作认真负责，有团队合作精神<br>
+                    • 无需相关工作经验，公司提供培训<br><br>
+                    
+                    🎁 【薪资福利】<br>
+                    ✅ 基本工资：22元/小时<br>
+                    ✅ 加班费：按国家标准1.5倍计算<br>
+                    ✅ 完善的五险一金保障<br>
+                    ✅ 免费员工宿舍（4人间，独立卫浴）<br>
+                    ✅ 餐补200元/月<br>
+                    ✅ 交通补贴100元/月<br>
+                    ✅ 带薪年假及法定节假日<br>
+                    ✅ 节日福利及生日礼品<br>
+                    ✅ 免费技能培训和职业发展机会<br><br>
+                    
+                    🏭 【工作环境】<br>
+                    公司拥有现代化的生产车间，环境整洁，设备先进。严格按照安全生产标准操作，为员工提供安全舒适的工作环境。车间配备空调系统，确保员工在适宜的温度下工作。<br><br>
+                    
+                    🏠 【生活配套】<br>
+                    员工宿舍位于工厂园区内，4人间标准配置，独立卫浴，24小时热水供应。宿舍区设有食堂、超市、娱乐室等配套设施，生活便利。<br><br>
+                    
+                    📞 【应聘方式】<br>
+                    如有应聘意向，请通过以下方式联系：<br>
+                    • 私信留言，我们将及时回复<br>
+                    • 评论区留下联系方式<br>
+                    • 关注本账号获取更多招聘信息<br><br>
+                    
+                    我们将在收到信息后24小时内与您联系，安排面试时间。面试通过者可直接安排入职相关手续。<br><br>
+                    
+                    #珠海招聘 #工厂招聘 #生产操作员 #高薪工作 #包住宿 #五险一金 #无经验可做 #求职招聘 #稳定工作 #职业发展
+                </div>
+            </div>
+            
+            <button onclick="copyTitleAndContent()" class="copy-btn w-full text-white py-3 rounded-lg font-medium mt-4 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                📋 复制标题和描述
+            </button>
+        </div>
+
+        <!-- 视频号视频区域 -->
+        <div class="content-card fade-in" style="animation-delay: 0.2s">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-800 flex items-center">
+                    <span class="mr-2">🎬</span>
+                    视频号视频素材
+                </h3>
+                <button id="regenerateVideoBtn" onclick="regenerateVideo()" class="regenerate-btn text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    重新生成
+                </button>
+            </div>
+            
+            <div id="videoArea" class="video-placeholder">
+                <!-- 视频信息覆盖层 -->
+                <div class="video-info">
+                    <div class="text-sm font-medium mb-1">🏢 企业宣传+岗位介绍</div>
+                    <div class="text-xs opacity-75">2分30秒 • 1920x1080/1080x1920</div>
+                </div>
+                
+                <!-- 播放按钮 -->
+                <div class="play-button" onclick="playVideo()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+                
+                <!-- 视频控制栏 -->
+                <div class="video-controls">
+                    <div class="progress-bar mb-2">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-white text-xs">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="togglePlay()" class="flex items-center">
+                                <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                            <span id="currentTime">00:00</span>
+                            <span>/</span>
+                            <span>02:30</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="toggleMute()">
+                                <svg id="soundIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                                </svg>
+                            </button>
+                            <button onclick="toggleOrientation()">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M16.48 2.52c3.27 1.55 5.61 4.72 5.97 8.48h1.5C23.44 4.84 18.29 0 12 0l-.66.03L15.96 4.65c.18-.01.36-.02.52-.13zM10.23 1.75c-.59-.59-1.54-.59-2.12 0L1.75 8.11c-.59.59-.59 1.54 0 2.12l6.36 6.36c.59.59 1.54.59 2.12 0L16.59 10.23c.59-.59.59-1.54 0-2.12L10.23 1.75z"/>
+                                </svg>
+                            </button>
+                            <button onclick="toggleFullscreen()">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 视频详情信息 -->
+            <div class="mt-4 wechat-style p-3 rounded-lg">
+                <div class="text-sm text-gray-600 space-y-1">
+                    <div class="flex justify-between">
+                        <span>🎬 类型：</span>
+                        <span class="text-gray-800">企业宣传+岗位介绍</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>🎵 配音：</span>
+                        <span class="text-gray-800">专业解说+背景音乐</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>⏱️ 时长：</span>
+                        <span class="text-gray-800">2分30秒</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>📐 格式：</span>
+                        <span class="text-gray-800">16:9横屏/9:16竖屏</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>📂 编码：</span>
+                        <span class="text-gray-800">MP4 (H.264)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>💾 大小：</span>
+                        <span class="text-gray-800">45.2MB</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>📊 码率：</span>
+                        <span class="text-gray-800">8Mbps</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="saveVideo()" class="save-btn w-full text-white py-3 rounded-lg font-medium mt-4 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                💾 保存视频到相册
+            </button>
+        </div>
+
+        <!-- 发布指引 -->
+        <div class="content-card fade-in wechat-style border border-green-200" style="animation-delay: 0.3s">
+            <h3 class="text-lg font-medium text-wechatGreen mb-3 flex items-center">
+                <span class="mr-2">💡</span>
+                发布指引
+            </h3>
+            <div class="space-y-2 text-sm text-green-700">
+                <div class="flex items-start">
+                    <span class="text-wechatGreen mr-2">1.</span>
+                    <span>复制上方标题和描述内容</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-wechatGreen mr-2">2.</span>
+                    <span>保存视频到手机相册</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-wechatGreen mr-2">3.</span>
+                    <span>打开微信，进入"发现 → 视频号"</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-wechatGreen mr-2">4.</span>
+                    <span>点击右上角相机图标"发表视频"</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-wechatGreen mr-2">5.</span>
+                    <span>上传视频并粘贴文案</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-wechatGreen mr-2">6.</span>
+                    <span>添加话题标签并选择合适的封面</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-wechatGreen mr-2">7.</span>
+                    <span>发布视频</span>
+                </div>
+            </div>
+            
+            <button onclick="openWechatVideo()" class="wechat-gradient w-full text-white py-3 rounded-lg font-medium mt-4 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.479 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
+                </svg>
+                📹 前往微信发布视频号
+            </button>
+        </div>
+    </div>
+
+    <!-- 重新生成选项弹窗 -->
+    <div id="regenerateModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="absolute bottom-0 left-0 right-0 max-w-[414px] mx-auto bg-white rounded-t-lg">
+            <div class="p-6">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">🔄 生成选项</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">📝 内容风格：</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="contentStyle" value="professional" class="mr-2" checked>
+                                <span class="text-sm">专业正式</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="contentStyle" value="detailed" class="mr-2">
+                                <span class="text-sm">详细全面</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">🎯 重点突出：</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="salary" class="mr-2" checked>
+                                <span class="text-sm">高薪资</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="benefits" class="mr-2" checked>
+                                <span class="text-sm">好福利</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="accommodation" class="mr-2" checked>
+                                <span class="text-sm">包住宿</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="training" class="mr-2" checked>
+                                <span class="text-sm">培训机会</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">🎬 视频类型：</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="videoType" value="corporate" class="mr-2" checked>
+                                <span class="text-sm">企业宣传</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="videoType" value="interview" class="mr-2">
+                                <span class="text-sm">员工采访</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">📐 视频格式：</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="videoFormat" value="landscape" class="mr-2" checked>
+                                <span class="text-sm">横屏16:9</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="videoFormat" value="portrait" class="mr-2">
+                                <span class="text-sm">竖屏9:16</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 mt-6">
+                    <button onclick="hideRegenerateModal()" class="flex-1 border border-gray-300 rounded-lg py-3 text-gray-700">
+                        取消
+                    </button>
+                    <button onclick="confirmRegenerate()" class="flex-1 bg-primary text-white rounded-lg py-3">
+                        开始生成
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 生成中状态弹窗 -->
+    <div id="generatingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white rounded-lg p-8 text-center max-w-sm mx-4">
+                <div class="generating mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">AI正在生成中...</h3>
+                <p class="text-sm text-gray-600 mb-4">正在根据您的要求生成内容...</p>
+                <div class="bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">预计还需 <span id="timeLeft">30</span> 秒...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript -->
+    <script src="js/share-wechat-video.js"></script>
+</body>
+</html> 

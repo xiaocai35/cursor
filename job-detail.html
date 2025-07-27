@@ -294,13 +294,119 @@
     </div>
 
     <!-- 底部操作栏 -->
-    <div class="fixed bottom-0 left-0 right-0 max-w-[414px] mx-auto flex items-center bg-white border-t border-gray-200 p-3">
-        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-primary-bg-light mr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
+    <div class="fixed bottom-0 left-0 right-0 max-w-[414px] mx-auto bg-white border-t border-gray-200 p-3">
+        <!-- 操作按钮网格 -->
+        <div class="grid grid-cols-2 gap-3 mb-3">
+            <!-- 在线沟通 -->
+            <div class="flex items-center justify-center bg-gray-50 rounded-lg py-3 cursor-pointer hover:bg-gray-100 transition-colors" onclick="startChat()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span class="text-gray-700 text-sm font-medium">💬 在线沟通</span>
+            </div>
+            
+            <!-- 立即报名 -->
+            <div class="flex items-center justify-center bg-primary rounded-lg py-3 cursor-pointer hover:bg-primary/90 transition-colors" onclick="window.location.href='identity-verify.html';">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span class="text-white text-sm font-medium">📋 立即报名</span>
+            </div>
+            
+            <!-- 收藏职位 -->
+            <div class="flex items-center justify-center bg-gray-50 rounded-lg py-3 cursor-pointer hover:bg-gray-100 transition-colors" onclick="toggleFavorite()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <span class="text-gray-700 text-sm font-medium">❤️ 收藏职位</span>
+            </div>
+            
+            <!-- 转发岗位 -->
+            <div class="flex items-center justify-center bg-gray-50 rounded-lg py-3 cursor-pointer hover:bg-gray-100 transition-colors" onclick="showShareModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                <span class="text-gray-700 text-sm font-medium">📤 转发岗位</span>
+            </div>
         </div>
-        <button onclick="window.location.href='identity-verify.html';" class="flex-1 primary-gradient text-white py-2.5 rounded-full text-base font-medium wx-button-hover">立即报名</button>
+    </div>
+
+    <!-- 分享弹窗 -->
+    <div id="shareModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="absolute bottom-0 left-0 right-0 max-w-[414px] mx-auto bg-white rounded-t-lg">
+            <!-- 弹窗标题 -->
+            <div class="flex justify-between items-center p-4 border-b border-gray-100">
+                <h3 class="text-lg font-medium text-gray-800">🔗 分享到</h3>
+                <div class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer" onclick="hideShareModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- 分享平台选项 -->
+            <div class="p-6 pb-8">
+                <div class="grid grid-cols-4 gap-6 mb-6">
+                    <!-- 微信朋友圈 -->
+                    <div class="flex flex-col items-center cursor-pointer" onclick="shareToWechatMoments()">
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">朋友圈</span>
+                    </div>
+                    
+                    <!-- 微信好友 -->
+                    <div class="flex flex-col items-center cursor-pointer" onclick="shareToWechatFriend()">
+                        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v4h2v-7.5c0-.83.67-1.5 1.5-1.5S12 9.67 12 10.5V18h2v-4h3v4h2V10.5c0-1.93-1.57-3.5-3.5-3.5S12 8.57 12 10.5V18H4z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">微信好友</span>
+                    </div>
+                    
+                    <!-- 小红书 -->
+                    <div class="flex flex-col items-center cursor-pointer" onclick="shareToXiaohongshu()">
+                        <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">小红书</span>
+                    </div>
+                    
+                    <!-- 抖音 -->
+                    <div class="flex flex-col items-center cursor-pointer" onclick="shareToDouyin()">
+                        <div class="w-16 h-16 bg-black rounded-full flex items-center justify-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.4 17.9c.9-.7 1.8-1.4 2.8-2l1.1-.8c.6-.4 1.1-.8 1.7-1.3l.6-.4V18H12v-3.3l-.2.1-1.8 1.3-1.6 1.8z"/>
+                                <path d="M22 12c0 5.5-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2s10 4.5 10 10z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">抖音</span>
+                    </div>
+                </div>
+                
+                <!-- 微信视频号单独一行 -->
+                <div class="flex justify-center">
+                    <div class="flex flex-col items-center cursor-pointer" onclick="shareToWechatVideo()">
+                        <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-600">视频号</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 取消按钮 -->
+            <div class="border-t border-gray-100">
+                <button onclick="hideShareModal()" class="w-full py-4 text-gray-600 text-center">取消</button>
+            </div>
+        </div>
     </div>
 
     <!-- 引入专用的JavaScript文件 -->

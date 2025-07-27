@@ -102,4 +102,158 @@ function formatDate(dateString) {
 // 处理工资计算
 function calculateSalary(hourlyRate, hours) {
     return (hourlyRate * hours).toFixed(2);
-} 
+}
+
+// ==================== 分享功能 ====================
+
+// 显示分享弹窗
+function showShareModal() {
+    const modal = document.getElementById('shareModal');
+    modal.classList.remove('hidden');
+    // 添加显示动画
+    setTimeout(() => {
+        modal.querySelector('.absolute').style.transform = 'translateY(0)';
+    }, 10);
+}
+
+// 隐藏分享弹窗
+function hideShareModal() {
+    const modal = document.getElementById('shareModal');
+    const content = modal.querySelector('.absolute');
+    content.style.transform = 'translateY(100%)';
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
+
+// 分享到微信朋友圈
+function shareToWechatMoments() {
+    hideShareModal();
+    showToast('正在跳转到朋友圈分享页面...');
+    setTimeout(() => {
+        window.location.href = 'share-wechat-moments.html';
+    }, 1000);
+}
+
+// 分享给微信好友
+function shareToWechatFriend() {
+    hideShareModal();
+    showToast('正在生成分享链接...');
+    // 模拟分享给好友的逻辑
+    setTimeout(() => {
+        // 这里可以实现微信API分享或生成分享链接
+        showToast('请复制链接发送给好友');
+    }, 1500);
+}
+
+// 分享到小红书
+function shareToXiaohongshu() {
+    hideShareModal();
+    showToast('正在跳转到小红书分享页面...');
+    setTimeout(() => {
+        window.location.href = 'share-xiaohongshu.html';
+    }, 1000);
+}
+
+// 分享到抖音
+function shareToDouyin() {
+    hideShareModal();
+    showToast('正在跳转到抖音分享页面...');
+    setTimeout(() => {
+        window.location.href = 'share-douyin.html';
+    }, 1000);
+}
+
+// 分享到微信视频号
+function shareToWechatVideo() {
+    hideShareModal();
+    showToast('正在跳转到视频号分享页面...');
+    setTimeout(() => {
+        window.location.href = 'share-wechat-video.html';
+    }, 1000);
+}
+
+// ==================== 操作按钮功能 ====================
+
+// 开始聊天
+function startChat() {
+    showToast('正在连接客服...');
+    // 模拟连接客服的逻辑
+    setTimeout(() => {
+        showToast('客服暂时忙线，请稍后再试');
+    }, 1500);
+}
+
+// 切换收藏状态
+function toggleFavorite() {
+    // 获取当前收藏状态
+    const favoriteButton = event.currentTarget;
+    const heartIcon = favoriteButton.querySelector('svg');
+    
+    // 检查当前是否已收藏
+    const isCurrentlyFavorited = heartIcon.classList.contains('text-red-500');
+    
+    if (isCurrentlyFavorited) {
+        // 取消收藏
+        heartIcon.classList.remove('text-red-500');
+        heartIcon.classList.add('text-gray-600');
+        heartIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />`;
+        favoriteButton.querySelector('span').textContent = '❤️ 收藏职位';
+        showToast('已取消收藏');
+    } else {
+        // 添加收藏
+        heartIcon.classList.remove('text-gray-600');
+        heartIcon.classList.add('text-red-500');
+        heartIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />`;
+        favoriteButton.querySelector('span').innerHTML = '💖 已收藏';
+        showToast('已收藏职位');
+    }
+}
+
+// ==================== 获取岗位信息 ====================
+
+// 获取当前岗位信息（用于分享）
+function getCurrentJobInfo() {
+    return {
+        title: '公寓宿舍 免费体检',
+        company: '珠海伟创力',
+        location: '广东省·珠海市',
+        salary: '22元/时',
+        tags: ['报销车票', '可借支', '包住', '免费体检', '空调宿舍'],
+        benefits: [
+            '发薪日期：华辉发薪日每月12号',
+            '22元/小时=21+1元全勤奖金',
+            '体检补贴：免费',
+            '车票报销：200.00元'
+        ],
+        description: '招聘企业：两班倒、坐班、普通生产线(有空调)/无尘车间',
+        workType: '普工、学徒、普通车间/无尘车间'
+    };
+}
+
+// 在页面加载时保存岗位信息到sessionStorage，供分享页面使用
+document.addEventListener('DOMContentLoaded', function() {
+    const jobInfo = getCurrentJobInfo();
+    sessionStorage.setItem('currentJobInfo', JSON.stringify(jobInfo));
+    
+    // 为分享弹窗添加显示动画样式
+    const style = document.createElement('style');
+    style.textContent = `
+        #shareModal .absolute {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+        }
+        
+        .share-platform-hover:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // 为平台图标添加hover效果
+    const platformButtons = document.querySelectorAll('#shareModal .cursor-pointer');
+    platformButtons.forEach(button => {
+        button.classList.add('share-platform-hover');
+    });
+});

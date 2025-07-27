@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>分享到小红书 - 聚贤人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        xiaohongshuRed: '#FF2442',
+                        xiaohongshuPink: '#FF6B9D',
+                    }
+                }
+            },
+            safelist: [
+                'bg-primary',
+                'text-primary',
+                'border-primary',
+                'bg-xiaohongshuRed',
+                'text-xiaohongshuRed',
+                'bg-xiaohongshuPink',
+                'text-xiaohongshuPink'
+            ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .xiaohongshu-gradient {
+            background: linear-gradient(135deg, #FF2442 0%, #FF6B9D 100%);
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .regenerate-btn {
+            background: linear-gradient(135deg, #8A33D1 0%, #9B4EE3 100%);
+            transition: all 0.2s ease;
+        }
+
+        .regenerate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(138, 51, 209, 0.3);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #FF2442 0%, #FF6B9D 100%);
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 36, 66, 0.3);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #FF6B9D 0%, #FFB3D1 100%);
+            transition: all 0.2s ease;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE8ED 100%);
+            border: 2px dashed #FF6B9D;
+            border-radius: 12px;
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            border-color: #FF2442;
+            background: linear-gradient(135deg, #FFF0F3 0%, #FFE0E6 100%);
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 10;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 36, 66, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(255, 36, 66, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-info {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            color: #FF2442;
+            z-index: 10;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .generating {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 隐藏滚动条但保持滚动功能 */
+        .scrollable-content {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 2px;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #FF2442;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .xiaohongshu-style {
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE8ED 100%);
+            border-left: 4px solid #FF2442;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-xiaohongshuRed">
+        <span>21:30</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="px-4 py-3 flex justify-between items-center bg-white border-b border-gray-100">
+        <div class="flex items-center space-x-2" onclick="window.history.back();" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </div>
+        <div class="text-center font-medium text-gray-800">分享到小红书</div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-xiaohongshuRed" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 scrollable-content bg-gray-50">
+        <!-- 小红书标题区域 -->
+        <div class="content-card fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-800 flex items-center">
+                    <span class="mr-2">📝</span>
+                    小红书标题
+                </h3>
+                <button id="regenerateTitleBtn" onclick="regenerateTitle()" class="regenerate-btn text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    重新生成
+                </button>
+            </div>
+            
+            <div id="titleArea" class="xiaohongshu-style p-4 rounded-lg">
+                <div class="text-base font-medium text-gray-800">
+                    💰 月薪过万的工作真的存在！珠海这个岗位让我心动了...✨（姐妹们冲！）
+                </div>
+            </div>
+        </div>
+
+        <!-- 小红书正文区域 -->
+        <div class="content-card fade-in" style="animation-delay: 0.1s">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-800 flex items-center">
+                    <span class="mr-2">📖</span>
+                    小红书正文
+                </h3>
+                <button id="regenerateContentBtn" onclick="regenerateContent()" class="regenerate-btn text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    重新生成
+                </button>
+            </div>
+            
+            <div id="contentArea" class="bg-gray-50 p-4 rounded-lg border border-gray-200 min-h-[300px]">
+                <div class="text-sm text-gray-700 leading-relaxed">
+                    🔥 姐妹们！又发现宝藏工作啦！<br><br>
+                    
+                    最近朋友介绍了个超棒的工作机会，在珠海，薪资真的很香！我帮大家整理了详细信息～<br><br>
+                    
+                    💼 【岗位详情】<br>
+                    🏢 公司：知名电子制造企业<br>
+                    📍 位置：珠海市<br>
+                    💰 薪资：22元/小时<br>
+                    👷 职位：生产操作员<br>
+                    ⏰ 班次：白班，8小时工作制<br><br>
+                    
+                    🎁 【福利超棒】<br>
+                    ✅ 五险一金（这个真的很重要！）<br>
+                    ✅ 免费宿舍（在珠海省房租太香了）<br>
+                    ✅ 餐补+交通补贴（贴心～）<br>
+                    ✅ 免费体检（省了好几百）<br>
+                    ✅ 带薪培训（小白也能快速上手）<br><br>
+                    
+                    💭 【我的想法】<br>
+                    说实话，在珠海能找到这样的工作真的不容易！薪资给得很实在，福利也到位。特别是包住宿这点，对外地来的小伙伴太友好了！<br><br>
+                    
+                    而且公司规模挺大的，发展机会也不错。如果你正在找工作，真的可以考虑一下～<br><br>
+                    
+                    🤝 想了解更多可以私信我哦！我们一起在大城市努力打拼💪<br><br>
+                    
+                    #珠海招聘 #高薪工作 #求职攻略 #工厂招聘 #包住宿工作 #五险一金 #职场小白 #工作分享
+                </div>
+            </div>
+            
+            <button onclick="copyTitleAndContent()" class="copy-btn w-full text-white py-3 rounded-lg font-medium mt-4 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                📋 复制标题和正文
+            </button>
+        </div>
+
+        <!-- 配套视频区域 -->
+        <div class="content-card fade-in" style="animation-delay: 0.2s">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-800 flex items-center">
+                    <span class="mr-2">🎥</span>
+                    配套视频素材
+                </h3>
+                <button id="regenerateVideoBtn" onclick="regenerateVideo()" class="regenerate-btn text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    重新生成
+                </button>
+            </div>
+            
+            <div id="videoArea" class="video-placeholder">
+                <!-- 视频信息覆盖层 -->
+                <div class="video-info">
+                    <div class="text-sm font-medium mb-1">💼 真实工作环境探访</div>
+                    <div class="text-xs opacity-75">60秒 • 4:5竖屏格式</div>
+                </div>
+                
+                <!-- 播放按钮 -->
+                <div class="play-button" onclick="playVideo()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+                
+                <!-- 视频控制栏 -->
+                <div class="video-controls">
+                    <div class="progress-bar mb-2">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-xiaohongshuRed text-xs">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="togglePlay()" class="flex items-center">
+                                <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                            <span id="currentTime">00:00</span>
+                            <span>/</span>
+                            <span>01:00</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="toggleMute()">
+                                <svg id="soundIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                                </svg>
+                            </button>
+                            <button onclick="toggleFullscreen()">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 视频详情信息 -->
+            <div class="mt-4 xiaohongshu-style p-3 rounded-lg">
+                <div class="text-sm text-gray-600 space-y-1">
+                    <div class="flex justify-between">
+                        <span>🎬 内容：</span>
+                        <span class="text-gray-800">工厂环境+员工采访</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>🎵 BGM：</span>
+                        <span class="text-gray-800">轻松愉快的背景音乐</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>⏱️ 时长：</span>
+                        <span class="text-gray-800">60秒</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>📐 尺寸：</span>
+                        <span class="text-gray-800">1080x1350 (4:5)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>📂 格式：</span>
+                        <span class="text-gray-800">MP4 (小红书推荐格式)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>💾 大小：</span>
+                        <span class="text-gray-800">18.5MB</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="saveVideo()" class="save-btn w-full text-white py-3 rounded-lg font-medium mt-4 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                💾 保存视频到相册
+            </button>
+        </div>
+
+        <!-- 发布指引 -->
+        <div class="content-card fade-in xiaohongshu-style border border-pink-200" style="animation-delay: 0.3s">
+            <h3 class="text-lg font-medium text-xiaohongshuRed mb-3 flex items-center">
+                <span class="mr-2">💡</span>
+                发布指引
+            </h3>
+            <div class="space-y-2 text-sm text-pink-700">
+                <div class="flex items-start">
+                    <span class="text-xiaohongshuRed mr-2">1.</span>
+                    <span>复制上方标题和正文内容</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-xiaohongshuRed mr-2">2.</span>
+                    <span>保存视频到手机相册</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-xiaohongshuRed mr-2">3.</span>
+                    <span>打开小红书APP发布笔记</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-xiaohongshuRed mr-2">4.</span>
+                    <span>选择"视频"模式上传视频</span>
+                </div>
+                <div class="flex items-start">
+                    <span class="text-xiaohongshuRed mr-2">5.</span>
+                    <span>粘贴文案并添加相关话题</span>
+                </div>
+            </div>
+            
+            <button onclick="openXiaohongshu()" class="xiaohongshu-gradient w-full text-white py-3 rounded-lg font-medium mt-4 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                📸 前往小红书发布笔记
+            </button>
+        </div>
+    </div>
+
+    <!-- 重新生成选项弹窗 -->
+    <div id="regenerateModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="absolute bottom-0 left-0 right-0 max-w-[414px] mx-auto bg-white rounded-t-lg">
+            <div class="p-6">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">🔄 生成选项</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">📝 文案风格：</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="contentStyle" value="sharing" class="mr-2" checked>
+                                <span class="text-sm">种草分享</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="contentStyle" value="experience" class="mr-2">
+                                <span class="text-sm">经验干货</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">🎯 重点突出：</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="salary" class="mr-2" checked>
+                                <span class="text-sm">高薪资</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="benefits" class="mr-2" checked>
+                                <span class="text-sm">好福利</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="accommodation" class="mr-2" checked>
+                                <span class="text-sm">包住宿</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" name="highlights" value="training" class="mr-2">
+                                <span class="text-sm">培训机会</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">🎬 视频风格：</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="videoStyle" value="real" class="mr-2" checked>
+                                <span class="text-sm">真实记录</span>
+                            </label>
+                            <label class="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="videoStyle" value="aesthetic" class="mr-2">
+                                <span class="text-sm">美化风格</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 mt-6">
+                    <button onclick="hideRegenerateModal()" class="flex-1 border border-gray-300 rounded-lg py-3 text-gray-700">
+                        取消
+                    </button>
+                    <button onclick="confirmRegenerate()" class="flex-1 bg-primary text-white rounded-lg py-3">
+                        开始生成
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 生成中状态弹窗 -->
+    <div id="generatingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white rounded-lg p-8 text-center max-w-sm mx-4">
+                <div class="generating mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">AI正在生成中...</h3>
+                <p class="text-sm text-gray-600 mb-4">正在根据您的要求生成内容...</p>
+                <div class="bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">预计还需 <span id="timeLeft">25</span> 秒...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript -->
+    <script src="js/share-xiaohongshu.js"></script>
+</body>
+</html> 
