@@ -2,6 +2,9 @@
 
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
+    // 检查用户状态，决定显示哪个首页
+    checkUserStatusAndRedirect();
+    
     // 初始化UI交互效果
     initUIInteractions();
     
@@ -11,6 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化筛选功能
     initFilter();
 });
+
+// 检查用户状态并重定向
+function checkUserStatusAndRedirect() {
+    // 只在index.html页面执行此检查
+    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        const employmentInfo = JSON.parse(localStorage.getItem('employmentInfo') || '{}');
+        
+        // 检查用户是否为在职员工
+        if (userInfo.employmentStatus === 'submitted' && employmentInfo.employeeName) {
+            // 在职员工跳转到员工专用首页
+            window.location.href = 'employee-home.html';
+            return;
+        }
+    }
+}
 
 // 初始化UI交互效果
 function initUIInteractions() {
@@ -140,24 +159,112 @@ function handleJobApplication(button) {
     showToast('报名成功，请留意消息通知');
 }
 
-// 显示提示信息
-function showToast(message) {
-    // 创建提示元素
-    const toast = document.createElement('div');
-    toast.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-full text-sm z-50 fade-in';
-    toast.textContent = message;
+// 切换到员工模式（测试功能）
+function switchToEmployeeMode() {
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    modal.innerHTML = `
+        <div class="bg-white rounded-lg p-6 mx-4 w-full max-w-sm">
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">模拟员工模式</h3>
+                <p class="text-gray-600 mb-4">这将模拟您已提交在职信息，切换到员工工作台</p>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button onclick="closeTestModal(this)" class="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-medium">
+                    取消
+                </button>
+                <button onclick="confirmEmployeeMode()" class="flex-1 bg-primary text-white py-3 rounded-lg font-medium">
+                    确认切换
+                </button>
+            </div>
+        </div>
+    `;
     
-    // 添加到页面
+    document.body.appendChild(modal);
+}
+
+// 确认切换到员工模式
+function confirmEmployeeMode() {
+    // 设置用户为在职状态
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    userInfo.employmentStatus = 'submitted';
+    userInfo.name = '张三';
+    userInfo.phone = '138****5678';
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    
+    // 创建模拟在职信息
+    const employmentInfo = {
+        employeeName: '张三',
+        phoneNumber: '13812345678',
+        factory: {
+            value: 'factory1',
+            text: '福建华威塑料工业有限公司'
+        },
+        position: {
+            value: 'operator1',
+            text: '生产线操作工'
+        },
+        hireDate: '2024-01-01',
+        submitTime: new Date().toISOString(),
+        status: 'approved'
+    };
+    localStorage.setItem('employmentInfo', JSON.stringify(employmentInfo));
+    
+    showToast('已切换到员工模式', 'success');
+    
+    // 关闭模态框
+    const modal = document.querySelector('.fixed');
+    if (modal) {
+        document.body.removeChild(modal);
+    }
+    
+    // 1秒后跳转到员工首页
+    setTimeout(() => {
+        window.location.href = 'employee-home.html';
+    }, 1000);
+}
+
+// 关闭测试模态框
+function closeTestModal(button) {
+    const modal = button.closest('.fixed');
+    document.body.removeChild(modal);
+}
+
+// 显示提示信息
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `fixed top-20 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white text-sm z-50 transition-opacity duration-300`;
+    
+    if (type === 'error') {
+        toast.className += ' bg-red-500';
+    } else if (type === 'success') {
+        toast.className += ' bg-green-500';
+    } else {
+        toast.className += ' bg-blue-500';
+    }
+    
+    toast.textContent = message;
+    toast.style.opacity = '0';
     document.body.appendChild(toast);
     
-    // 2秒后自动移除
+    // 显示动画
+    setTimeout(() => toast.style.opacity = '1', 100);
+    
+    // 3秒后自动隐藏
     setTimeout(() => {
-        toast.classList.add('opacity-0');
-        toast.style.transition = 'opacity 0.5s';
+        toast.style.opacity = '0';
         setTimeout(() => {
-            document.body.removeChild(toast);
-        }, 500);
-    }, 2000);
+            if (document.body.contains(toast)) {
+                document.body.removeChild(toast);
+            }
+        }, 300);
+    }, 3000);
 }
 
 // 跳转到登录页面

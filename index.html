@@ -79,17 +79,18 @@
     </div>
 
     <!-- 推荐标签 -->
-    <div class="bg-white px-4 py-2 flex items-center space-x-3 overflow-x-auto scrollbar-hide">
-        <span class="text-primary font-medium">推荐</span>
-        <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">石狮</span>
-        <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">晋江</span>
-        <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">泉州</span>
-        <span class="text-gray-700 px-2 py-1 flex items-center bg-gray-100 rounded-full text-sm whitespace-nowrap">
-            筛选
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </span>
+    <div class="bg-white px-4 py-2 flex items-center justify-between">
+        <div class="flex items-center space-x-3 overflow-x-auto scrollbar-hide flex-1">
+            <span class="text-primary font-medium">推荐</span>
+            <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">石狮</span>
+            <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">晋江</span>
+            <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">泉州</span>
+            <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">厦门</span>
+            <span class="text-gray-700 px-2 py-1 bg-gray-100 rounded-full text-sm whitespace-nowrap">福州</span>
+        </div>
+        <button onclick="switchToEmployeeMode()" class="text-xs bg-primary text-white px-2 py-1 rounded-md ml-3 whitespace-nowrap">
+            员工模式
+        </button>
     </div>
 
     <!-- 主内容区域 -->

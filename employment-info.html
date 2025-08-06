@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>填写在职信息 - 聚贤人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        secondary: '#F6F7FB',
+                        textGray: '#666666',
+                        lightGray: '#EEEEEE',
+                        rewardRed: '#FF5B5B',
+                        rewardOrange: '#FFA046',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.15s ease-in-out;
+            background-color: white;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #8A33D1;
+            box-shadow: 0 0 0 3px rgba(138, 51, 209, 0.1);
+        }
+
+        .input-field.error {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .select-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .scrollable-content {
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scrollable-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .required-star {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col max-w-[414px] mx-auto overflow-hidden">
+    <!-- 状态栏 -->
+    <div class="px-4 py-1 flex justify-between items-center text-xs text-white bg-primary">
+        <span id="currentTime">21:14</span>
+        <div class="flex items-center space-x-1">
+            <span class="text-xs">4G</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 20v-5.5H9L13 7v5.5h2L11 20z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 页面头部 -->
+    <div class="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center">
+            <button onclick="goBack()" class="mr-3 p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <h1 class="text-lg font-semibold text-gray-800">填写在职信息</h1>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="flex-1 scrollable-content">
+        <div class="p-4">
+            <!-- 提示信息 -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                        <h3 class="text-sm font-medium text-blue-800 mb-1">温馨提示</h3>
+                        <p class="text-sm text-blue-700">请如实填写您的在职信息，这将有助于我们为您提供更好的服务和相关权益保障。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 表单 -->
+            <form id="employmentForm" class="space-y-6">
+                <!-- 工厂选择 -->
+                <div class="input-group">
+                    <label class="input-label">
+                        选择工厂 <span class="required-star">*</span>
+                    </label>
+                    <select id="factorySelect" class="input-field select-field" required>
+                        <option value="">请选择工厂</option>
+                        <option value="factory1">福建华威塑料工业有限公司</option>
+                        <option value="factory2">泉州市金威包装材料有限公司</option>
+                        <option value="factory3">福建恒安集团有限公司</option>
+                        <option value="factory4">泉州汇兴纸业有限公司</option>
+                        <option value="factory5">福建凤竹纺织科技股份有限公司</option>
+                        <option value="factory6">福建省晋江市华泰集团有限公司</option>
+                        <option value="factory7">泉州市金鹿集团有限公司</option>
+                        <option value="factory8">福建华昌纺织有限公司</option>
+                    </select>
+                    <div id="factoryError" class="error-message" style="display: none;"></div>
+                </div>
+
+                <!-- 岗位选择 -->
+                <div class="input-group">
+                    <label class="input-label">
+                        选择岗位 <span class="required-star">*</span>
+                    </label>
+                    <select id="positionSelect" class="input-field select-field" required disabled>
+                        <option value="">请先选择工厂</option>
+                    </select>
+                    <div id="positionError" class="error-message" style="display: none;"></div>
+                </div>
+
+                <!-- 姓名 -->
+                <div class="input-group">
+                    <label class="input-label" for="employeeName">
+                        姓名 <span class="required-star">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="employeeName" 
+                        class="input-field" 
+                        placeholder="请输入您的真实姓名"
+                        maxlength="20"
+                        required
+                    >
+                    <div id="nameError" class="error-message" style="display: none;"></div>
+                </div>
+
+                <!-- 手机号码 -->
+                <div class="input-group">
+                    <label class="input-label" for="phoneNumber">
+                        手机号码 <span class="required-star">*</span>
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="phoneNumber" 
+                        class="input-field" 
+                        placeholder="请输入11位手机号码"
+                        maxlength="11"
+                        required
+                    >
+                    <div id="phoneError" class="error-message" style="display: none;"></div>
+                </div>
+
+                <!-- 入职时间 -->
+                <div class="input-group">
+                    <label class="input-label" for="hireDate">
+                        入职时间 <span class="required-star">*</span>
+                    </label>
+                    <input 
+                        type="date" 
+                        id="hireDate" 
+                        class="input-field" 
+                        required
+                    >
+                    <div id="dateError" class="error-message" style="display: none;"></div>
+                </div>
+
+                <!-- 户籍地址 -->
+                <div class="input-group">
+                    <label class="input-label">
+                        户籍地址 <span class="required-star">*</span>
+                    </label>
+                    <div class="flex space-x-2">
+                        <select id="provinceSelect" class="input-field select-field flex-1" required>
+                            <option value="">请选择省份</option>
+                        </select>
+                        <select id="citySelect" class="input-field select-field flex-1" required disabled>
+                            <option value="">请选择城市</option>
+                        </select>
+                        <select id="districtSelect" class="input-field select-field flex-1" required disabled>
+                            <option value="">请选择区县</option>
+                        </select>
+                    </div>
+                    <div id="addressError" class="error-message" style="display: none;"></div>
+                </div>
+
+                <!-- 提交按钮 -->
+                <div class="pt-4 pb-6">
+                    <button 
+                        type="submit" 
+                        id="submitBtn"
+                        class="w-full bg-primary hover:bg-purple-700 text-white font-medium py-3 rounded-lg transition-colors duration-200"
+                    >
+                        提交在职信息
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 加载提示 -->
+    <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+        <div class="bg-white rounded-lg p-6 mx-4 min-w-[200px] text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4"></div>
+            <p class="text-gray-700">正在提交信息...</p>
+        </div>
+    </div>
+
+    <!-- 成功提示模态框 -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+        <div class="bg-white rounded-lg p-6 mx-4 min-w-[280px] text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">提交成功</h3>
+            <p class="text-gray-600 mb-6">您的在职信息已成功提交，我们将尽快为您审核处理。</p>
+            <button 
+                onclick="goToProfile()" 
+                class="w-full bg-primary text-white py-2.5 rounded-lg font-medium"
+            >
+                返回个人中心
+            </button>
+        </div>
+    </div>
+
+    <script src="js/employment-info.js"></script>
+</body>
+</html> 

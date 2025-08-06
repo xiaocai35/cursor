@@ -113,7 +113,7 @@ function initBottomNavigation() {
 function navigateTo(url) {
     // 如果页面已存在，则直接跳转
     // 否则显示开发中提示
-    const existingPages = ['index.html', 'job-detail.html', 'profile.html', 'referral-reward.html', 'advance-salary.html', 'salary.html', 'feedback.html', 'about.html', 'search-results.html', 'messages.html', 'settings.html'];
+    const existingPages = ['index.html', 'job-detail.html', 'profile.html', 'referral-reward.html', 'advance-salary.html', 'salary.html', 'feedback.html', 'about.html', 'search-results.html', 'messages.html', 'settings.html', 'employment-info.html', 'qr-code.html', 'employee-home.html'];
     
     if (existingPages.includes(url)) {
         window.location.href = url;
@@ -163,4 +163,14 @@ function showToast(message) {
             document.body.removeChild(toast);
         }, 500);
     }, 2000);
+}
+
+// 跳转到在职信息填写页面
+function goToEmploymentInfo() {
+    navigateTo('employment-info.html');
+}
+
+// 跳转到推广二维码页面
+function goToQrCode() {
+    navigateTo('qr-code.html');
 } 
