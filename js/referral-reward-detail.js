@@ -450,6 +450,18 @@ function showToast(message) {
     }, 2000);
 }
 
+// 跳转到排行榜页面
+function goToRanking() {
+    // 添加页面切换动画效果
+    document.body.style.transition = 'opacity 0.3s ease';
+    document.body.style.opacity = '0.7';
+    
+    setTimeout(() => {
+        window.location.href = 'ranking.html';
+    }, 200);
+}
+
 // 导出函数供全局使用
 window.toggleDetails = toggleDetails;
-window.showToast = showToast; 
+window.showToast = showToast;
+window.goToRanking = goToRanking; 

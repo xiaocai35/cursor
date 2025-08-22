@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>推荐排行榜 - 聚贤人力</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8A33D1',
+                        'primary-light': '#A855F7',
+                        'primary-dark': '#7C3AED'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .status-bar {
+            background: linear-gradient(90deg, #000 0%, #333 100%);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #8A33D1 0%, #A855F7 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+        .silver-gradient {
+            background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);
+        }
+        .bronze-gradient {
+            background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%);
+        }
+        .ranking-card {
+            transition: all 0.3s ease;
+        }
+        .ranking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(138, 51, 209, 0.2);
+        }
+        .crown-icon {
+            filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+        }
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .number-animation {
+            transition: all 0.5s ease;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .bounce-in {
+            animation: bounceIn 0.8s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 状态栏模拟 -->
+    <div class="status-bar h-6 flex justify-between items-center px-4 text-white text-xs">
+        <span id="currentTime">9:41</span>
+        <div class="flex space-x-1">
+            <div class="w-4 h-2 bg-white rounded-sm"></div>
+            <div class="w-4 h-2 bg-white rounded-sm"></div>
+            <div class="w-4 h-2 bg-white rounded-sm"></div>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="max-w-md mx-auto bg-white min-h-screen">
+        <!-- 头部导航 -->
+        <div class="gradient-bg text-white">
+            <div class="flex items-center justify-between p-4">
+                <button onclick="history.back()" class="text-white hover:text-white/80 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <h1 class="text-lg font-semibold">推荐排行榜</h1>
+                <button class="text-white hover:text-white/80 transition-colors" onclick="showRules()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- 时间周期选择 -->
+            <div class="px-4 pb-4">
+                <div class="flex bg-white/20 rounded-lg p-1">
+                    <button class="period-btn active flex-1 py-2 px-3 text-center text-sm font-medium rounded-md transition-all bg-white text-primary" data-period="month">
+                        本月
+                    </button>
+                    <button class="period-btn flex-1 py-2 px-3 text-center text-sm font-medium rounded-md transition-all text-white/80 hover:text-white" data-period="quarter">
+                        本季度
+                    </button>
+                    <button class="period-btn flex-1 py-2 px-3 text-center text-sm font-medium rounded-md transition-all text-white/80 hover:text-white" data-period="year">
+                        本年度
+                    </button>
+                </div>
+            </div>
+
+            <!-- 统计概览 -->
+            <div class="px-4 pb-6">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <p class="text-2xl font-bold text-white" id="totalParticipants">128</p>
+                        <p class="text-xs text-white/80">参与人数</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-white" id="totalRewards">¥8,650</p>
+                        <p class="text-xs text-white/80">奖金池</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-white" id="avgScore">465</p>
+                        <p class="text-xs text-white/80">平均积分</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 奖励规则提示 -->
+        <div class="p-4">
+            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-3">
+                <div class="flex items-start space-x-2">
+                    <div class="text-yellow-600">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="text-sm">
+                        <p class="text-gray-700 font-medium">现金奖励规则</p>
+                        <p class="text-gray-600 mt-1">根据推荐入职人数×工作天数计算积分，前10名获得现金奖励</p>
+                        <p class="text-gray-500 text-xs mt-1">当前周期：<span id="currentPeriodText">2024年12月</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载状态 -->
+        <div id="loadingState" class="hidden px-4 mb-6">
+            <div class="space-y-4">
+                <div class="loading-shimmer h-24 rounded-lg"></div>
+                <div class="loading-shimmer h-16 rounded-lg"></div>
+                <div class="loading-shimmer h-16 rounded-lg"></div>
+            </div>
+        </div>
+
+        <!-- 前三名特殊展示 -->
+        <div id="topThreeSection" class="px-4 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <span class="text-2xl mr-2">🏆</span>
+                冠军榜
+                <span class="ml-2 text-sm text-gray-500 font-normal">Top 3</span>
+            </h2>
+            
+            <div class="flex justify-center items-end space-x-4 mb-6">
+                <!-- 第二名 -->
+                <div class="text-center flex-1 bounce-in" style="animation-delay: 0.2s">
+                    <div class="relative">
+                        <div class="w-16 h-16 mx-auto mb-2 relative">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiNGM0Y0RjYiLz4KPGNpcmNsZSBjeD0iMzIiIGN5PSIyNCIgcj0iOCIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNMTYgNTZDMTYgNDcuMTYzNCAyMy4xNjM0IDQwIDMyIDQwQzQwLjgzNjYgNDAgNDggNDcuMTYzNCA0OCA1NlY1NkgxNloiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+Cg==" alt="李明" class="w-full h-full rounded-full border-3 border-gray-300">
+                            <div class="absolute -top-2 -right-2 w-8 h-8 silver-gradient rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">2</div>
+                        </div>
+                    </div>
+                    <p class="font-medium text-gray-800 text-sm">李明</p>
+                    <p class="text-xs text-gray-500">1,250积分</p>
+                    <p class="text-xs text-primary font-medium">¥800</p>
+                </div>
+
+                <!-- 第一名 -->
+                <div class="text-center flex-1 bounce-in" style="animation-delay: 0s">
+                    <div class="relative">
+                        <div class="crown-icon text-yellow-500 text-2xl absolute -top-8 left-1/2 transform -translate-x-1/2">👑</div>
+                        <div class="w-20 h-20 mx-auto mb-2 relative">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDAiIGN5PSI0MCIgcj0iNDAiIGZpbGw9IiNGRkQ3MDAiLz4KPGNpcmNsZSBjeD0iNDAiIGN5PSIzMCIgcj0iMTAiIGZpbGw9IiNGRkY3RUQiLz4KPHBhdGggZD0iTTIwIDcwQzIwIDU4Ljk1NDMgMjguOTU0MyA1MCA0MCA1MEM1MS4wNDU3IDUwIDYwIDU4Ljk1NDMgNjAgNzBWNzBIMjBaIiBmaWxsPSIjRkZGN0VEIi8+Cjwvc3ZnPgo=" alt="王小华" class="w-full h-full rounded-full border-4 border-yellow-400">
+                            <div class="absolute -top-2 -right-2 w-10 h-10 gold-gradient rounded-full flex items-center justify-center text-white font-bold shadow-lg">1</div>
+                        </div>
+                    </div>
+                    <p class="font-bold text-gray-800">王小华</p>
+                    <p class="text-sm text-gray-500">1,580积分</p>
+                    <p class="text-sm text-primary font-bold">¥1,200</p>
+                </div>
+
+                <!-- 第三名 -->
+                <div class="text-center flex-1 bounce-in" style="animation-delay: 0.4s">
+                    <div class="relative">
+                        <div class="w-16 h-16 mx-auto mb-2 relative">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiNEMjY5MUUiLz4KPGNpcmNsZSBjeD0iMzIiIGN5PSIyNCIgcj0iOCIgZmlsbD0iI0ZGRjdFRCIvPgo8cGF0aCBkPSJNMTYgNTZDMTYgNDcuMTYzNCAyMy4xNjM0IDQwIDMyIDQwQzQwLjgzNjYgNDAgNDggNDcuMTYzNCA0OCA1NlY1NkgxNloiIGZpbGw9IiNGRkY3RUQiLz4KPC9zdmc+Cg==" alt="张伟" class="w-full h-full rounded-full border-3 border-amber-600">
+                            <div class="absolute -top-2 -right-2 w-8 h-8 bronze-gradient rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">3</div>
+                        </div>
+                    </div>
+                    <p class="font-medium text-gray-800 text-sm">张伟</p>
+                    <p class="text-xs text-gray-500">980积分</p>
+                    <p class="text-xs text-primary font-medium">¥500</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 排行榜列表 (4-10名) -->
+        <div id="rankingListSection" class="px-4">
+            <h3 class="text-md font-semibold text-gray-800 mb-4 flex items-center justify-between">
+                <span>完整排行榜</span>
+                <span class="text-sm text-gray-500 font-normal">4-10名</span>
+            </h3>
+            
+            <div id="rankingList" class="space-y-3">
+                <!-- 动态生成的排行榜项 -->
+            </div>
+
+            <!-- 我的排名（特殊显示） -->
+            <div id="myRanking" class="ranking-card bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 border-2 border-primary/20 mt-4 fade-in">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center font-bold text-white">15</div>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM4QTMzRDEiLz4KPGNpcmNsZSBjeD0iMjAiIGN5PSIxNSIgcj0iNSIgZmlsbD0iI0ZGRjdFRCIvPgo8cGF0aCBkPSJNMTAgMzVDMTAgMjkuNDc3MiAxNC40NzcyIDI1IDIwIDI1QzI1LjUyMjggMjUgMzAgMjkuNDc3MiAzMCAzNVYzNUgxMFoiIGZpbGw9IiNGRkY3RUQiLz4KPC9zdmc+Cg==" alt="我的头像" class="w-10 h-10 rounded-full border-2 border-primary/20">
+                        <div>
+                            <p class="font-medium text-gray-800 flex items-center">
+                                我的排名
+                                <span class="ml-2 bg-primary text-white text-xs px-2 py-0.5 rounded-full">ME</span>
+                            </p>
+                            <p class="text-xs text-gray-500">推荐2人 • 平均15天</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-semibold text-gray-800">180积分</p>
+                        <p class="text-sm text-gray-500">未获奖</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 查看更多 -->
+            <div class="text-center py-4">
+                <button id="loadMoreBtn" class="text-primary font-medium text-sm hover:text-primary-dark transition-colors">
+                    查看更多排名
+                </button>
+            </div>
+        </div>
+
+        <!-- 奖励说明 -->
+        <div class="p-4 mt-6">
+            <div class="bg-white rounded-lg p-4 border border-gray-100 shadow-sm">
+                <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="text-lg mr-2">💰</span>
+                    奖励明细
+                </h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 flex items-center">
+                            <span class="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>
+                            第1名
+                        </span>
+                        <span class="font-medium text-yellow-600">¥1,200</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 flex items-center">
+                            <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
+                            第2名
+                        </span>
+                        <span class="font-medium text-gray-600">¥800</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 flex items-center">
+                            <span class="w-2 h-2 bg-amber-600 rounded-full mr-2"></span>
+                            第3名
+                        </span>
+                        <span class="font-medium text-amber-600">¥500</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 flex items-center">
+                            <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                            第4-5名
+                        </span>
+                        <span class="font-medium text-primary">¥300-200</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 flex items-center">
+                            <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                            第6-10名
+                        </span>
+                        <span class="font-medium text-primary">¥150-50</span>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        <strong>积分计算：</strong>推荐人数 × 平均工作天数<br>
+                        <strong>发放条件：</strong>奖励每月发放，需推荐至少3人且平均工作15天以上<br>
+                        <strong>发放时间：</strong>次月5日前发放到账
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部间距 -->
+        <div class="h-20"></div>
+    </div>
+
+    <!-- 规则说明弹窗 -->
+    <div id="rulesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-sm w-full max-h-96 overflow-y-auto">
+            <div class="p-4 border-b border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800">排行榜规则说明</h3>
+            </div>
+            <div class="p-4 space-y-4 text-sm">
+                <div>
+                    <h4 class="font-medium text-gray-800 mb-2">📊 积分计算方式</h4>
+                    <p class="text-gray-600">积分 = 推荐入职人数 × 平均工作天数</p>
+                    <p class="text-gray-500 text-xs mt-1">例：推荐5人，平均工作30天 = 5×30 = 150积分</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800 mb-2">🏆 奖励发放条件</h4>
+                    <ul class="text-gray-600 space-y-1">
+                        <li>• 至少推荐3人成功入职</li>
+                        <li>• 被推荐人平均工作15天以上</li>
+                        <li>• 进入前10名排行榜</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800 mb-2">📅 统计周期</h4>
+                    <ul class="text-gray-600 space-y-1">
+                        <li>• <strong>月度：</strong>当月1日-31日</li>
+                        <li>• <strong>季度：</strong>当季度3个月</li>
+                        <li>• <strong>年度：</strong>当年1月-12月</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800 mb-2">💰 奖金发放</h4>
+                    <p class="text-gray-600">每月5日前发放上月奖励至个人账户</p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-100">
+                <button onclick="hideRules()" class="w-full bg-primary text-white py-2 rounded-lg font-medium">
+                    我知道了
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/ranking.js"></script>
+</body>
+</html> 

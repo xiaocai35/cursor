@@ -80,6 +80,9 @@ function initServiceItems() {
                 case '关于我们':
                     navigateTo('about.html');
                     break;
+                case '推荐排行榜':
+                    navigateTo('ranking.html');
+                    break;
                 case '更多':
                     showToast('更多服务即将上线');
                     break;
@@ -173,4 +176,19 @@ function goToEmploymentInfo() {
 // 跳转到推广二维码页面
 function goToQrCode() {
     navigateTo('qr-code.html');
-} 
+}
+
+// 跳转到推荐排行榜页面
+function goToRanking() {
+    navigateTo('ranking.html');
+}
+
+// 导出函数到全局作用域
+window.goToEarningsDetail = goToEarningsDetail;
+window.goToWithdraw = goToWithdraw;
+window.goToAdvanceSalary = goToAdvanceSalary;
+window.goToEmploymentInfo = goToEmploymentInfo;
+window.goToReferralReward = goToReferralReward;
+window.goToQrCode = goToQrCode;
+window.goToRanking = goToRanking;
+window.navigateTo = navigateTo; 
